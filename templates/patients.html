@@ -1,0 +1,41 @@
+<title>Potilaat</title>
+<h1>Potilaan lisääminen</h1>
+<form action="/addpatient" method="POST">
+* Henkilötunnus:
+<input type="text" name="ssn">
+<p>
+Nimi:
+<input type="text" name="patient_name">
+<p>
+* Veriryhmä:
+<p>
+<input type="radio" name="bloodgroup" value="A RhD pos"> A RhD pos
+<input type="radio" name="bloodgroup" value="B RhD pos"> B RhD pos
+<input type="radio" name="bloodgroup" value="AB RhD pos"> AB RhD pos
+<input type="radio" name="bloodgroup" value="O RhD pos"> O RhD pos
+<p>
+<input type="radio" name="bloodgroup" value="A RhD neg"> A RhD neg
+<input type="radio" name="bloodgroup" value="B RhD neg"> B RhD neg
+<input type="radio" name="bloodgroup" value="AB RhD neg"> AB RhD neg
+<input type="radio" name="bloodgroup" value="O RhD neg"> O RhD neg
+<p>
+Fenotyyppivaatimukset: <br>
+<textarea name="phenotype_reqs" rows="3" cols="50"></textarea>
+<p>
+<br>
+<input type="submit" value="Tallenna">
+</form>
+<p>
+Pakolliset tiedot on merkitty tähdellä.
+<p>
+<hr>
+<p>
+Potilaat:
+<p>
+<ul>
+{% for patient in patients %}
+<li> {{ patient.ssn }} {{ patient.patient_name }}, veriryhmä {{ patient.bloodgroup }} {{ patient.phenotype_reqs }}
+{% endfor %}
+</ul>
+<p>
+<a href="/">Takaisin etusivulle</a>

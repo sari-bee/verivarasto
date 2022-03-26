@@ -1,0 +1,53 @@
+<title>Verensiirron kirjaus</title>
+<h1>Verensiirron kirjaus</h1>
+<form action="/addtransfusion" method="POST">
+* Valmisteen luovutusnumero:
+<input type="text" name="product_donation_number">
+<p>
+Mahdolliset luovutusnumerot:
+<ul>
+{% for product in products %}
+<li> {{ ''.join(product) }}
+{% endfor %}
+</ul>
+<p>
+* Potilaan henkilötunnus:
+<input type="text" name="patient_ssn">
+<p>
+Mahdolliset potilaat:
+<ul>
+{% for patient in patients %}
+<li> {{ ''.join(patient) }}
+{% endfor %}
+</ul>
+<p>
+* Hoitoyksikkö:
+<p>
+<input type="text" name="department_abbrev">
+<p>
+Mahdolliset hoitoyksiköt:
+<ul>
+{% for department in departments %}
+<li> {{ ''.join(department) }}
+{% endfor %}
+</ul>
+<p>
+* Siirron päivämäärä: <br>
+<input type="date" name="date">
+<p>
+<br>
+<input type="submit" value="Tallenna">
+</form>
+<p>
+Pakolliset tiedot on merkitty tähdellä.
+<p>
+<hr>
+<p>
+Verensiirrot:
+<ul>
+{% for transfusion in transfusions %}
+<li> {{ transfusion.ssn }} {{ transfusion.patient_name }}: {{ transfusion.donation_number }} {{ transfusion.prod_code_abbrev }} ({{ transfusion.department_abbrev }} {{ transfusion.date }})
+{% endfor %}
+</ul>
+<p>
+<a href="/">Takaisin etusivulle</a>

@@ -1,0 +1,61 @@
+<title>Sisäänkirjaus</title>
+<h1>Verivalmisteen sisäänkirjaus</h1>
+<form action="/addproduct" method="POST">
+* Varasto, johon sisäänkirjataan:
+<input type="text" name="inventory_abbrev">
+<p>
+Mahdolliset varastot:
+<ul>
+{% for inventory in inventories %}
+<li> {{ ''.join(inventory) }}
+{% endfor %}
+</ul>
+<p>
+* Anna luovutusnumero:
+<input type="text" name="donation_number">
+<p>
+* Anna valmistetyyppi:
+<input type="text" name="prod_code_abbrev">
+<p>
+Mahdolliset valmistetyypit:
+<ul>
+{% for product_code in product_codes %}
+<li> {{ ''.join(product_code) }}
+{% endfor %}
+</ul>
+<p>
+* Valitse veriryhmä:
+<p>
+<input type="radio" name="bloodgroup" value="A RhD pos"> A RhD pos
+  <input type="radio" name="bloodgroup" value="B RhD pos"> B RhD pos
+  <input type="radio" name="bloodgroup" value="AB RhD pos"> AB RhD pos
+  <input type="radio" name="bloodgroup" value="O RhD pos"> O RhD pos
+<p>
+<input type="radio" name="bloodgroup" value="A RhD neg"> A RhD neg
+  <input type="radio" name="bloodgroup" value="B RhD neg"> B RhD neg
+  <input type="radio" name="bloodgroup" value="AB RhD neg"> AB RhD neg
+  <input type="radio" name="bloodgroup" value="O RhD neg"> O RhD neg
+<p>
+Fenotyypit: <br>
+<textarea name="phenotypes" rows="3" cols="50"></textarea>
+<p>
+* Käytettävä ennen:
+<input type="date" name="use_before">
+<p>
+<br>
+<input type="submit" value="Tallenna">
+</form>
+<p>
+Pakolliset tiedot on merkitty tähdellä.
+<p>
+<hr>
+<p>
+Varastossa olevat valmisteet:
+<ul>
+{% for product in products %}
+<li> {{ product.donation_number }} {{ product.prod_code_abbrev }} {{ product.bloodgroup }}
+    {{ product.phenotypes }}, käytettävä ennen {{ product.use_before }}
+{% endfor %}
+</ul>
+<p>
+<a href="/">Takaisin etusivulle</a>

@@ -1,0 +1,26 @@
+<title>Verivarastot</title>
+<h1>Verivaraston lisääminen</h1>
+<form action="/addinventory" method="POST">
+* Varaston lyhenne:
+<input type="text" name="inventory_abbrev">
+<p>
+Varaston pitkä nimi:
+<input type="text" name="inventory_name">
+<p>
+<br>
+<input type="submit" value="Tallenna">
+</form>
+<p>
+Pakolliset tiedot on merkitty tähdellä.
+<p>
+<hr>
+<p>
+<p>
+Varastot:
+<ul>
+{% for inventory in inventories %}
+<li> {{ inventory.inventory_abbrev }} {{ inventory.inventory_name }}
+{% endfor %}
+</ul>
+<p>
+<a href="/">Takaisin etusivulle</a>
