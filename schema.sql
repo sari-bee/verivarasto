@@ -1,10 +1,3 @@
-DROP TABLE IF EXISTS Product_codes CASCADE;
-DROP TABLE IF EXISTS Products CASCADE;
-DROP TABLE IF EXISTS Patients CASCADE;
-DROP TABLE IF EXISTS Inventories CASCADE;
-DROP TABLE IF EXISTS Departments CASCADE;
-DROP TABLE IF EXISTS Inventory_products CASCADE;
-DROP TABLE IF EXISTS Transfusions CASCADE;
 CREATE TABLE Product_codes (id SERIAL PRIMARY KEY, prod_code_abbrev TEXT UNIQUE NOT NULL, prod_code_name TEXT);
 CREATE TABLE Products (id SERIAL PRIMARY KEY, donation_number TEXT UNIQUE NOT NULL, product_code_id INTEGER REFERENCES Product_codes ON DELETE RESTRICT, bloodgroup TEXT NOT NULL, phenotypes TEXT, use_before DATE NOT NULL);
 CREATE TABLE Patients (id SERIAL PRIMARY KEY, ssn TEXT UNIQUE NOT NULL, patient_name TEXT, bloodgroup TEXT NOT NULL, phenotype_reqs TEXT);
