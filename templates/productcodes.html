@@ -18,7 +18,7 @@ Pakolliset tiedot on merkitty tähdellä.
 Valmistetyypit:
 <ul>
 {% for product_code in product_codes %}
-<li> {{ product_code.prod_code_abbrev }} {{ product_code.prod_code_name }}
+<li> {{ " ".join(product_code) }}
 {% endfor %}
 </ul>
 <p>

@@ -1,7 +1,7 @@
 <title>Verensiirron kirjaus</title>
 <h1>Verensiirron kirjaus</h1>
 <form action="/addtransfusion" method="POST">
-* Valmisteen luovutusnumero:
+* Valmiste:
 <input name="product_donation_number" list="product_donation_number">
 <datalist id="product_donation_number">
   {% for product in products %}
@@ -13,7 +13,7 @@
 <input name="patient_ssn" list="patient_ssn">
 <datalist id="patient_ssn">
   {% for patient in patients %}
-  <option value={{ ''.join(patient) }}></option>
+  <option value={{ "".join(patient) }}></option>
   {% endfor %}
 </datalist>
 <p>
@@ -22,7 +22,7 @@
 <input name="department_abbrev" list="department_abbrev">
 <datalist id="department_abbrev">
   {% for department in departments %}
-  <option value={{ ''.join(department) }}></option>
+  <option value={{ "".join(department) }}></option>
   {% endfor %}
 </datalist>
 <p>

@@ -5,7 +5,7 @@
 <input name="inventory_abbrev" list="inventory_abbrev">
 <datalist id="inventory_abbrev">
   {% for inventory in inventories %}
-  <option value={{ ''.join(inventory) }}></option>
+  <option value={{ "".join(inventory) }}></option>
   {% endfor %}
 </datalist>
 <p>
@@ -16,7 +16,7 @@
 <input name="prod_code_abbrev" list="prod_code_abbrev">
 <datalist id="prod_code_abbrev">
   {% for product_code in product_codes %}
-  <option value={{ ''.join(product_code) }}></option>
+  <option value={{ "".join(product_code) }}></option>
   {% endfor %}
 </datalist>
 <p>
@@ -52,7 +52,7 @@ Varastossa olevat valmisteet:
 <ul>
 {% for product in products %}
 <li> {{ product.donation_number }} {{ product.prod_code_abbrev }} {{ product.bloodgroup }}
-    {{ product.phenotypes }}, käytettävä ennen {{ product.use_before }}
+    {{ product.phenotypes }}, käytettävä ennen {{ product.use_before }}, tila: {{ product.status }}
 {% endfor %}
 </ul>
 <p>

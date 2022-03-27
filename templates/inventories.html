@@ -19,7 +19,7 @@ Pakolliset tiedot on merkitty tähdellä.
 Varastot:
 <ul>
 {% for inventory in inventories %}
-<li> {{ inventory.inventory_abbrev }} {{ inventory.inventory_name }}
+<li> {{ " ".join(inventory) }}
 {% endfor %}
 </ul>
 <p>
