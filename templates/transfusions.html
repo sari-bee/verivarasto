@@ -2,35 +2,29 @@
 <h1>Verensiirron kirjaus</h1>
 <form action="/addtransfusion" method="POST">
 * Valmisteen luovutusnumero:
-<input type="text" name="product_donation_number">
-<p>
-Mahdolliset luovutusnumerot:
-<ul>
-{% for product in products %}
-<li> {{ ''.join(product) }}
-{% endfor %}
-</ul>
+<input name="product_donation_number" list="product_donation_number">
+<datalist id="product_donation_number">
+  {% for product in products %}
+  <option value={{ ''.join(product) }}></option>
+  {% endfor %}
+</datalist>
 <p>
 * Potilaan henkilötunnus:
-<input type="text" name="patient_ssn">
-<p>
-Mahdolliset potilaat:
-<ul>
-{% for patient in patients %}
-<li> {{ ''.join(patient) }}
-{% endfor %}
-</ul>
+<input name="patient_ssn" list="patient_ssn">
+<datalist id="patient_ssn">
+  {% for patient in patients %}
+  <option value={{ ''.join(patient) }}></option>
+  {% endfor %}
+</datalist>
 <p>
 * Hoitoyksikkö:
 <p>
-<input type="text" name="department_abbrev">
-<p>
-Mahdolliset hoitoyksiköt:
-<ul>
-{% for department in departments %}
-<li> {{ ''.join(department) }}
-{% endfor %}
-</ul>
+<input name="department_abbrev" list="department_abbrev">
+<datalist id="department_abbrev">
+  {% for department in departments %}
+  <option value={{ ''.join(department) }}></option>
+  {% endfor %}
+</datalist>
 <p>
 * Siirron päivämäärä: <br>
 <input type="date" name="date">

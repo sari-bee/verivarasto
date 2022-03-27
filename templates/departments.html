@@ -8,14 +8,12 @@ Hoitoyksikön pitkä nimi:
 <input type="text" name="department_name">
 <p>
 * Palveleva verivarasto:
-<input type="text" name="inventory_abbrev">
-<p>
-Mahdolliset verivarastot:
-<ul>
-{% for inventory in inventories %}
-<li> {{ ''.join(inventory) }}
-{% endfor %}
-</ul>
+<input name="inventory_abbrev" list="inventory_abbrev">
+<datalist id="inventory_abbrev">
+  {% for inventory in inventories %}
+  <option value={{ ''.join(inventory) }}></option>
+  {% endfor %}
+</datalist>
 <p>
 <br>
 <input type="submit" value="Tallenna">

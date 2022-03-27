@@ -2,39 +2,37 @@
 <h1>Verivalmisteen sisäänkirjaus</h1>
 <form action="/addproduct" method="POST">
 * Varasto, johon sisäänkirjataan:
-<input type="text" name="inventory_abbrev">
-<p>
-Mahdolliset varastot:
-<ul>
-{% for inventory in inventories %}
-<li> {{ ''.join(inventory) }}
-{% endfor %}
-</ul>
+<input name="inventory_abbrev" list="inventory_abbrev">
+<datalist id="inventory_abbrev">
+  {% for inventory in inventories %}
+  <option value={{ ''.join(inventory) }}></option>
+  {% endfor %}
+</datalist>
 <p>
 * Anna luovutusnumero:
 <input type="text" name="donation_number">
 <p>
 * Anna valmistetyyppi:
-<input type="text" name="prod_code_abbrev">
+<input name="prod_code_abbrev" list="prod_code_abbrev">
+<datalist id="prod_code_abbrev">
+  {% for product_code in product_codes %}
+  <option value={{ ''.join(product_code) }}></option>
+  {% endfor %}
+</datalist>
 <p>
-Mahdolliset valmistetyypit:
-<ul>
-{% for product_code in product_codes %}
-<li> {{ ''.join(product_code) }}
-{% endfor %}
-</ul>
+* Veriryhmä:
 <p>
-* Valitse veriryhmä:
-<p>
-<input type="radio" name="bloodgroup" value="A RhD pos"> A RhD pos
-  <input type="radio" name="bloodgroup" value="B RhD pos"> B RhD pos
-  <input type="radio" name="bloodgroup" value="AB RhD pos"> AB RhD pos
-  <input type="radio" name="bloodgroup" value="O RhD pos"> O RhD pos
-<p>
-<input type="radio" name="bloodgroup" value="A RhD neg"> A RhD neg
-  <input type="radio" name="bloodgroup" value="B RhD neg"> B RhD neg
-  <input type="radio" name="bloodgroup" value="AB RhD neg"> AB RhD neg
-  <input type="radio" name="bloodgroup" value="O RhD neg"> O RhD neg
+<input name="bloodgroup" list="bloodgroup">
+<datalist id="bloodgroup">
+  <option value="A RhD pos"></option>
+  <option value="A RhD neg"></option>
+  <option value="B RhD pos"></option>
+  <option value="B RhD neg"></option>
+  <option value="AB RhD pos"></option>
+  <option value="AB RhD neg"></option>
+  <option value="O RhD pos"></option>
+  <option value="O RhD neg"></option>
+</datalist>
 <p>
 Fenotyypit: <br>
 <textarea name="phenotypes" rows="3" cols="50"></textarea>
