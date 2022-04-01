@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<title>Ylläpitotoiminnot</title>
+<div class="container">
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <a class="navbar-brand">
+            <img src="/static/blood.jpeg" height="20">
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/inventory">Verivarasto</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/transfusions">Verensiirron kirjaus</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/products">Verivalmisteen sisäänkirjaus</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/patients">Potilaat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/maintenance">Ylläpitotoiminnot</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="row">
+        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+            <h5>Verivarastot</h5>
+            <ul style="list-style-type:none;">
+            {% for inventory in inventories %}
+            <li> {{ ' '.join(inventory) }}
+            {% endfor %}
+            </ul>
+            <h5>Lisää uusi verivarasto</h5>
+            <form action="/addinventory" method="POST">
+                <div class="form-group col-6">
+                    <label for="inventory_abbrev">Varaston lyhenne</label>
+                    <input type="text" class="form-control" id="inventory_abbrev" name="inventory_abbrev">
+                </div>
+                <div class="form-group col-6">
+                    <label for="inventory_name">Varaston nimi</label>
+                    <input type="text" class="form-control" id="inventory_name" name="inventory_name">
+                </div>
+                <div class="form-group col-6">
+                    <button type="submit" class="btn btn-outline-dark">Tallenna</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+            <h5>Hoitoyksiköt</h5>
+            <ul style="list-style-type:none;">
+            {% for department in departments %}
+            <li> {{ department.department_abbrev }} {{ department.department_name }}, verivarasto: {{ department.inventory_abbrev }}
+            {% endfor %}
+            </ul>
+            <h5>Lisää uusi hoitoyksikkö</h5>
+            <form action="/adddepartment" method="POST">
+                <div class="form-group col-6">
+                    <label for="department_abbrev">Hoitoyksikön lyhenne</label>
+                    <input type="text" class="form-control" id="department_abbrev" name="department_abbrev">
+                </div>
+                <div class="form-group col-6">
+                    <label for="department_name">Hoitoyksikön nimi</label>
+                    <input type="text" class="form-control" id="department_name" name="department_name">
+                </div>
+                <div class="form-group col-6">
+                    <label for="inventory_abbrev">Palveleva verivarasto</label>
+                    <select class="form-select" name="inventory_abbrev">
+                        <option selected>Valitse valikosta</option>
+                        {% for inventory in inventories %}
+                        <option value={{ ''.join(inventory.inventory_abbrev) }}>{{ ' '.join(inventory) }}</option>
+                        {% endfor %}
+                        </select>
+                </div>
+                <div class="form-group col-6">
+                    <button type="submit" class="btn btn-outline-dark">Tallenna</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+            <h5>Valmistetyypit</h5>
+            <ul style="list-style-type:none;">
+            {% for product_code in product_codes %}
+            <li> {{ " ".join(product_code) }}
+            {% endfor %}
+            </ul>
+            <h5>Lisää uusi valmistetyyppi</h5>
+            <form action="/addproductcode" method="POST">
+                <div class="form-group col-6">
+                    <label for="prod_code_abbrev">Valmisteen lyhenne</label>
+                    <input type="text" class="form-control" id="prod_code_abbrev" name="prod_code_abbrev">
+                </div>
+                <div class="form-group col-6">
+                    <label for="prod_code_name">Valmisteen nimi</label>
+                    <input type="text" class="form-control" id="prod_code_name" name="prod_code_name">
+                </div>
+                <div class="form-group col-6">
+                    <button type="submit" class="btn btn-outline-dark">Tallenna</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+            <h5>Käyttäjät</h5>
+            <p><i>Tulossa myöhemmin</i></p>
+        </div>
+    </div>
+    <hr>
+    <p class="text-center" style="font-weight: lighter;">
+        <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
+    </p>
+</div>

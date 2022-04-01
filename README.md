@@ -4,11 +4,17 @@ Heroku: https://verivarasto.herokuapp.com/
 
 ## Tilanne palautuksessa 3.4.:
 
-Sovelluksessa voi tällä hetkellä toteuttaa perustoiminnallisuudet: lisätä verivalmisteita, potilaita, valmistetyyppejä, verivarastoja ja hoitoyksiköitä, sekä kirjata verensiirron potilaalle. Verivalmiste vanhenee automaattisesti syötetyn viimeisen käyttöpäivän mukaan, jolloin se ei ole enää potilaalle siirrettävissä. Vastaavasti potilaalle siirretyksi kirjattu valmiste ei ole enää käytettävissä muille. Edistyneempiä valmisteen käsittelyjä (esim. palautus hoitoyksiköstä, hävitys, siirto toiseen verivarastoon) ei ole vielä toteutettu. Myöskään sisäänkirjautumistoimintoa (käyttäjätietoja) ei ole vielä toteutettu, tämän vuoksi sovelluksesta ei vielä synny lokitietoa.
+Käyttäjä- ja kirjautumistoiminnallisuutta ei vielä ole toteutettu, joten etusivulta siirrytään varsinaiseen sovellukseen suoraan klikkaamalla linkkiä. Varsinaisessa sovelluksessa navigoidaan ylälaidan linkkien avulla. Huomioitavaa on että missään lomakkeissa ei vielä ole varsinaisia validointeja (osassa virheellisiä syötteitä on virhekäsittely, mutta ei vielä virheilmoituksia käyttöliittymään).
 
-Sovelluksen lomakkeet ohjaavat tietojen syötössä. Niissä kentissä, joihin tulee syöttää määrämuotoista tietoa, vaihtoehto valitaan dropdown-valikosta (tai päivämäärän osalta kalenterista). Muihin kenttiin voi syöttää vapaamuotoista tekstiä. Syötettyjen tietojen validointi on kesken; vain osasta virheellisiä syötteitä tulee virheilmoitus, joka ei lisäksi vielä näy käyttöliittymässä; osa virheistä aiheuttaa palvelinvirheen ja osaa tarvittavista validoinneista ei ole vielä huomioitu lainkaan.
+Sovellus avautuu sivulle, jossa voi katsella ja hakea verivalmisteita eri hakuehdoilla. Hakuehdot täydentyvät vielä. Luovutusnumerohakuun voi napata numeron esimerkiksi Kaikki valmisteet-hausta, jossa luovutusnumero on jokaisen yksittäisen hakutuloksen ensimmäinen tietue. Tähän sivuun pääsee takaisin Verivarasto-linkistä. Verivarastotoiminnallisuuksista puuttuu vielä mahdollisuus siirtää valmiste toiseen varastoon ja mahdollisuus hävittää valmiste.
 
-Sovellukseen ei ole vielä toteutettu hakutoiminnallisuuksia. Tietojen syötön yhteydessä näytetään kaikki ko. tiedosta tietokannassa oleva data.
+Verensiirron kirjaus-linkissä voi kirjata verensiirron. Alasvetovalikoissa on vaihtoehtoja vain, jos järjestelmässä on Käytettävissä olevia verivalmisteita (valmisteita, jotka eivät ole siirrettyjä potilaille tai vanhentuneita), ja jos järjestelmään on syötetty potilaita ja hoitoyksiköitä. Siirtopäivän voi toistaiseksi valita vapaasti, siinä ei ole validointia. Sovelluksessa ei myöskään toistaiseksi ole validointia valmisteen ja potilaan veriryhmän välillä. Lisäksi puuttuu valmisteen palautus varastoon (verensiirron peruminen). Verensiirron kirjauksessa ei tällä hetkellä tarkisteta sitä, yritetäänkö hoitoyksikköön lähettää sellaista valmistetta, joka on siinä verikeskuksessa, joka palvelee ko. hoitoyksikköä.
+
+Verivalmisteen sisäänkirjauksessa voi sisäänkirjata verivalmisteen tiettyyn varastoon. Ne kentät, joissa ei ole alasvetovalikkoa, voi täyttää vapaasti. Fenotyypit-kenttä ei ole pakollinen. Kannattaa testata myös esimerkiksi jo valmiiksi vanhentuneen valmisteen syöttö ja huomata että sen tilaksi tulee Vanhentunut ja toisaalta sisäänkirjata valmiste, jonka sitten kirjaa siirretyksi potilaalle, jolloin huomaa, että valmisteen tilaksi muuttuu Siirretty.
+
+Potilaat-sivulla voi hakea alasvetovalikosta tietyn potilaan tiedot ja verensiirrot tai lisätä potilaan. Potilaan tiedot voi toistaiseksi syöttää vapaasti. Fenotyyppivaatimukset-kenttä ei ole pakollinen. Sovelluksesta puuttuu mahdollisuus lisätä fenotyyppivaatimuksia jo kannassa olevalle potilaalle.
+
+Ylläpitotoiminnoissa voi selata ja lisätä verivarastoja, hoitoyksiköitä ja valmistetyyppejä. Nämä voi syöttää vapaasti (poislukien hoitoyksikköä palvelevan verivaraston, joka valitaan alasvetovalikosta). Käyttäjä- ja kirjautumistoiminnallisuus tulee myöhemmin. Myöskään käyttäjiin liittyvää tietokantataulua ei vielä ole luotu.
 
 ## Alkuperäisidea:
 
