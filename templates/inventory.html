@@ -4,7 +4,7 @@
 <title>Verivarasto</title>
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
-        <a class="navbar-brand">
+        <a class="navbar-brand" href="/inventory">
             <img src="/static/blood.jpeg" height="20">
         </a>
         <ul class="navbar-nav">
@@ -28,12 +28,12 @@
     <div class="row" style="padding: 20px;"></div>
     <div class="row">
         <div class="col-4">
-            <form action="/getproducts" method="POST">
+            <form action="/getproducts" method="GET">
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-dark">Käytettävissä olevat</button>
             </div>
             </form>
-            <form action="/getallproducts" method="POST">
+            <form action="/getallproducts" method="GET">
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-dark">Kaikki valmisteet</button>
             </div>

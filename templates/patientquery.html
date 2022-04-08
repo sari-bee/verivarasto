@@ -4,7 +4,7 @@
 <title>Potilaat</title>
 <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light">
-        <a class="navbar-brand">
+        <a class="navbar-brand" href="/inventory">
             <img src="/static/blood.jpeg" height="20">
         </a>
         <ul class="navbar-nav">
@@ -56,10 +56,10 @@
         <div class="col-9">
             <div></div>
             <ul style="list-style-type:none;">
-            {% for transfusion in patienttransfusions %}
+            {% for transfusion in patient_transfusions %}
             <li>
             {{ transfusion.donation_number }} <b>{{ transfusion.prod_code_abbrev }}</b> ({{ transfusion.prod_code_name}})
-            {{ transfusion.date }}, {{ transfusion.department_abbrev }}
+            {{ transfusion.bloodgroup }} // {{ transfusion.date }}, {{ transfusion.department_abbrev }}
             {% endfor %}
             </ul>
         </div>
@@ -90,6 +90,7 @@
                         <option value="AB RhD neg">AB RhD neg</option>
                         <option value="O RhD pos">O RhD pos</option>
                         <option value="O RhD neg">O RhD neg</option>
+                        <option value="? RhD ?">? RhD ?</option>
                     </select>
                 </div>
                 <div class="form-group">

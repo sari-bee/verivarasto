@@ -4,7 +4,7 @@
 <title>Verensiirron kirjaus</title>
 <div class="container">
   <nav class="navbar navbar-expand-sm navbar-light">
-    <a class="navbar-brand">
+    <a class="navbar-brand" href="/inventory">
         <img src="/static/blood.jpeg" height="20">
     </a>
     <ul class="navbar-nav">
@@ -35,7 +35,7 @@
         <select class="form-select" name="product_donation_number">
         <option selected>Valitse valikosta</option>
         {% for product in products %}
-        <option value={{ ''.join(product.donation_number) }}>{{ ' '.join(product) }}</option>
+        <option value={{ ''.join(product.donation_number) }}>{{ ''.join(product.donation_number) }} {{ ''.join(product.prod_code_abbrev) }} {{ ''.join(product.bloodgroup) }}</option>
         {% endfor %}
         </select>
       </div>
@@ -53,7 +53,7 @@
         <select class="form-select" name="department_abbrev">
         <option selected>Valitse valikosta</option>
         {% for department in departments %}
-        <option value={{ "".join(department.department_abbrev) }}>{{ ' '.join(department) }}</option>
+        <option value={{ "".join(department.department_abbrev) }}>{{ ''.join(department.department_abbrev) }} {{ ''.join(department.department_name) }}</option>
         {% endfor %}
         </select>
       </div>
