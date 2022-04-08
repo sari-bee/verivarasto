@@ -23,6 +23,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/maintenance">Ylläpitotoiminnot</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+            </li>
         </ul>
     </nav>
     <div class="row">
@@ -82,6 +85,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>
                 </div>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
     </div>

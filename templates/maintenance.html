@@ -23,10 +23,13 @@
             <li class="nav-item">
                 <a class="nav-link" href="/maintenance">Ylläpitotoiminnot</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+            </li>
         </ul>
     </nav>
     <div class="row">
-        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+        <div class="col-5" style="border: 1px;border-color:whitesmoke;border-style:solid;margin: 10px;">
             <h5>Verivarastot</h5>
             <ul style="list-style-type:none;">
             {% for inventory in inventories %}
@@ -46,9 +49,10 @@
                 <div class="form-group col-6">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>
                 </div>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
-        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+        <div class="col-5" style="border: 1px;border-color:whitesmoke;border-style:solid;margin: 10px;">
             <h5>Hoitoyksiköt</h5>
             <ul style="list-style-type:none;">
             {% for department in departments %}
@@ -77,11 +81,12 @@
                 <div class="form-group col-6">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>
                 </div>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
     </div>
     <div class="row">
-        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+        <div class="col-5" style="border: 1px;border-color:whitesmoke;border-style:solid;margin: 10px;">
             <h5>Valmistetyypit</h5>
             <ul style="list-style-type:none;">
             {% for product_code in product_codes %}
@@ -101,9 +106,10 @@
                 <div class="form-group col-6">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>
                 </div>
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
-        <div class="col-5" style="border: 1px;border-color:rgb(255, 189, 184);border-style:solid;margin: 10px;">
+        <div class="col-5" style="border: 1px;border-color:whitesmoke;border-style:solid;margin: 10px;">
             <h5>Käyttäjät</h5>
             <p><i>Tulossa myöhemmin</i></p>
         </div>

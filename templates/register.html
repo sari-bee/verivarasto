@@ -12,18 +12,10 @@
     <img src="/static/blood.jpeg">
     <h1 style="padding: 20px;">Verivarasto</h1>
     <br>
-    {% if session.username %}
-    <h5>Tervetuloa {{ session.username }}!</h5>
-    <form action="/inventory">
-        <div class="form-group">
-            <button type="submit" class="btn btn-outline-dark">Sisään</button>
-        </div>
-    </form>
-    {% else %}
     <div class="row">
         <div class="col-3"></div>
         <div class="col-6">
-            <form action="/login" method="POST">
+            <form action="/newuser" method="POST">
                 <div class="form-group">
                     <label for="username">Käyttäjätunnus</label>
                     <input type="username" class="form-control" id="username" name="username">
@@ -33,13 +25,15 @@
                     <input type="password" class="form-control" id="password" name="password">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-outline-dark">Kirjaudu sisään</button>
+                    <label for="password2">Salasana toisen kerran</label>
+                    <input type="password" class="form-control" id="password2" name="password2">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-dark">Rekisteröidy</button>
                 </div>
             </form>
         </div>
     </div>
-    <p class="text-center"><a href="/register">Rekisteröidy</a></p>
-    {% endif %}
     <p class="text-center" style="font-weight: lighter;padding: 20px;">
         <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
     </p>

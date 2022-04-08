@@ -1,14 +1,16 @@
 from app import app
 from flask import render_template, redirect, request
-import transfusion, product, status, patient, maintenance_functions
+import transfusion, product, status, patient, maintenance_functions, user
 
 @app.route("/patients")
 def patients():
+    user.check_user_role(1)
     patients = patient.get_patients()
     return render_template("patients.html", patients=patients)
 
 @app.route("/transfusions")
 def transfusions():
+    user.check_user_role(1)
     product_status = "Käytettävissä"
     products = product.get_products_by_status(product_status)
     patients = patient.get_patients()
@@ -18,6 +20,7 @@ def transfusions():
 
 @app.route("/getpatienttransfusions", methods=["POST"])
 def getpatienttransfusions():
+    user.check_user_role(1)
     patients = patient.get_patients()
     ssn = request.form["patient_ssn"]
     patient_by_ssn = patient.get_patient_by_ssn(ssn)
@@ -26,6 +29,9 @@ def getpatienttransfusions():
 
 @app.route("/addpatient", methods=["POST"])
 def addpatient():
+    user.check_user_role(1)
+    csrf_token = request.form["csrf_token"]
+    user.check_csrf_token(csrf_token)
     ssn = request.form["ssn"]
     patient_name = request.form["patient_name"]
     bloodgroup = request.form["bloodgroup"]
@@ -38,6 +44,9 @@ def addpatient():
 
 @app.route("/addtransfusion", methods=["POST"])
 def addtransfusion():
+    user.check_user_role(1)
+    csrf_token = request.form["csrf_token"]
+    user.check_csrf_token(csrf_token)
     donation_number = request.form["product_donation_number"]
     product_id = product.get_product_id_by_donation_number(donation_number)[0]
     ssn = request.form["patient_ssn"]
