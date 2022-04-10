@@ -41,7 +41,7 @@
           <select required class="form-select" name="department">
             <option selected=""></option>
             {% for department in departments %}
-            <option value={{ ''.join(department.department_abbrev) }}>{{ ' '.join(department) }}</option>
+            <option value={{ ''.join(department.department_abbrev) }}>{{ ''.join(department.department_abbrev) }} {{ ''.join(department.department_name) }}</option>
             {% endfor %}
           </select>
         </div>
@@ -67,7 +67,7 @@
         <select required class="form-select" name="product_donation_number">
           <option selected=""></option>
           {% for product in products %}
-          <option value={{ ''.join(product.donation_number) }}>{{ ''.join(product.donation_number) }} {{ ''.join(product.prod_code_abbrev) }} {{ ''.join(product.bloodgroup) }}</option>
+          <option value={{ ''.join(product.donation_number) }}>{{ ''.join(product.donation_number) }} {{ ''.join(product.prod_code_abbrev) }} {{ ''.join(product.bloodgroup) }} {{ ''.join(product.phenotypes) }}</option>
           {% endfor %}
         </select>
       </div>
