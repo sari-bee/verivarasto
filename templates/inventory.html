@@ -12,16 +12,19 @@
                 <a class="nav-link" href="/inventory">Verivarasto</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/transfusions">Verensiirron kirjaus</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Verivalmisteen sisäänkirjaus</a>
+                <a class="nav-link" href="/transfusions">Verensiirrot</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/patients">Potilaat</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/maintenance">Ylläpitotoiminnot</a>
+                <a class="nav-link" href="/products">Valmistetoiminnot</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/maintenance">Ylläpito</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logs">Loki</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Kirjaudu ulos</a>
@@ -44,8 +47,8 @@
             <hr>
             <form action="/getproductsbyinventory" method="POST">
             <div class="form-group">
-                <select class="form-select" name="inventory_abbrev">
-                    <option selected>Valitse valikosta</option>
+                <select required class="form-select" name="inventory_abbrev">
+                    <option selected=""></option>
                     {% for inventory in inventories %}
                     <option value={{ ''.join(inventory.inventory_abbrev) }}>{{ ' '.join(inventory) }}</option>
                     {% endfor %}
@@ -58,7 +61,7 @@
             <hr>
             <form action="/getproductbydonationnumber" method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="donation_number" name="donation_number">
+                    <input type="text" class="form-control" id="donation_number" name="donation_number" minlength="3" maxlength="20" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Hae luovutusnumerolla</button>
@@ -75,7 +78,6 @@
             </ul>
         </div>
     </div>
-    <hr>
     <p class="text-center" style="font-weight: lighter;">
         <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
     </p>

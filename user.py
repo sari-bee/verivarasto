@@ -1,11 +1,12 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
+from datetime import date
 from flask import abort, request, session
 from db import db
 
 def add_user(username, password, role):
-    hash = generate_password_hash(password)
     try:
+        hash = generate_password_hash(password)
         sql = "INSERT INTO Users (username, password, role) VALUES (:username, :password, :role)"
         db.session.execute(sql, {"username":username, "password":hash, "role":role})
         db.session.commit()
@@ -14,7 +15,7 @@ def add_user(username, password, role):
     return True
 
 def check_user_credentials(username, password):
-    sql = "SELECT id, password, role FROM Users WHERE username=:username"
+    sql = "SELECT password, role FROM Users WHERE username = :username"
     user = db.session.execute(sql, {"username":username}).fetchone()
     if not user:
         return False
@@ -28,10 +29,28 @@ def check_user_credentials(username, password):
         else:
             return False
 
+def change_password(oldpassword, newpassword):
+    sql = "SELECT password FROM Users WHERE username = :username"
+    hashedpassword = db.session.execute(sql, {"username":session["username"]}).fetchone()[0]
+    if check_password_hash(hashedpassword, oldpassword):
+        try:
+            hash = generate_password_hash(newpassword)
+            sql = "UPDATE Users SET password = :password WHERE username = :username"
+            db.session.execute(sql, {"password":hash, "username":session["username"]})
+            db.session.commit()
+            return True
+        except SQLAlchemyError as e:
+            error = str(e.__dict__['orig'])
+            print(error)
+            return False
+    else:
+        return False
+
 def delete_session():
-    del session["username"]
-    del session["role"]
-    del session["csrf_token"]
+    if session:
+        del session["username"]
+        del session["role"]
+        del session["csrf_token"]
 
 def check_csrf_token(csrf_token):
     if session["csrf_token"] != csrf_token:
@@ -41,4 +60,13 @@ def check_user_role(role):
     if session.get("role", 0) != role:
         abort(403)
 
+def get_logs():
+    sql = "SELECT logtext, username, date FROM Logs, Users WHERE Users.id = Logs.user_id ORDER BY date ASC"
+    return db.session.execute(sql).fetchall()
 
+def add_to_log(logtext):
+    sql = "SELECT id FROM Users WHERE username = :username"
+    user_id = db.session.execute(sql, {"username":session["username"]}).fetchone()[0]
+    sql = "INSERT INTO Logs (logtext, user_id, date) VALUES (:logtext, :user_id, :date)"
+    db.session.execute(sql, {"logtext":logtext, "user_id":user_id, "date":date.today()})
+    db.session.commit()

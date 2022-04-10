@@ -13,7 +13,11 @@ def get_patient_id_by_ssn(ssn):
     return db.session.execute(sql, {"ssn":ssn}).fetchone()
 
 def add_patient(ssn, patient_name, bloodgroup, phenotype_reqs):
-    sql = """INSERT INTO Patients (ssn, patient_name, bloodgroup, phenotype_reqs) 
-        VALUES (:ssn, :patient_name, :bloodgroup, :phenotype_reqs)"""
-    db.session.execute(sql, {"ssn":ssn, "patient_name":patient_name, "bloodgroup":bloodgroup, "phenotype_reqs":phenotype_reqs})
-    db.session.commit()
+    try:
+        sql = """INSERT INTO Patients (ssn, patient_name, bloodgroup, phenotype_reqs) 
+            VALUES (:ssn, :patient_name, :bloodgroup, :phenotype_reqs)"""
+        db.session.execute(sql, {"ssn":ssn, "patient_name":patient_name, "bloodgroup":bloodgroup, "phenotype_reqs":phenotype_reqs})
+        db.session.commit()
+        return True
+    except:
+        return False
