@@ -1,14 +1,18 @@
 from db import db
 
 def get_departments():
+    sql = "SELECT id, department_abbrev, department_name FROM Departments"
+    return db.session.execute(sql).fetchall()
+
+def get_departments_and_inventory():
     sql = """SELECT department_abbrev, department_name, inventory_abbrev
         FROM Departments, Inventories
         WHERE Departments.inventory_id = Inventories.id"""
     return db.session.execute(sql).fetchall()
 
-def get_department_by_abbrev(abbrev):
-    sql = "SELECT id FROM Departments WHERE department_abbrev = :abbrev"
-    return db.session.execute(sql, {"abbrev":abbrev}).fetchone()
+def get_department(id):
+    sql = "SELECT department_abbrev, department_name FROM Departments WHERE id = :id"
+    return db.session.execute(sql, {"id":id}).fetchone()
 
 def add_department(abbrev, name, inventory_id):
     try:
@@ -21,12 +25,12 @@ def add_department(abbrev, name, inventory_id):
     return True
 
 def get_inventories():
-    sql = "SELECT inventory_abbrev, inventory_name FROM Inventories"
+    sql = "SELECT id, inventory_abbrev, inventory_name FROM Inventories"
     return db.session.execute(sql).fetchall()
 
-def get_inventory_by_abbrev(abbrev):
-    sql = "SELECT id FROM Inventories WHERE inventory_abbrev = :abbrev"
-    return db.session.execute(sql, {"abbrev":abbrev}).fetchone()
+def get_inventory_abbrev(id):
+    sql = "SELECT inventory_abbrev FROM Inventories WHERE id = :id"
+    return db.session.execute(sql, {"id":id}).fetchone()
 
 def add_inventory(abbrev, name):
     try:
@@ -39,12 +43,8 @@ def add_inventory(abbrev, name):
     return True
 
 def get_product_codes():
-    sql = "SELECT prod_code_abbrev, prod_code_name FROM Product_codes"
+    sql = "SELECT id, prod_code_abbrev, prod_code_name FROM Product_codes"
     return db.session.execute(sql).fetchall()
-
-def get_product_code_by_abbrev(abbrev):
-    sql = "SELECT id FROM Product_codes WHERE prod_code_abbrev = :abbrev"
-    return db.session.execute(sql, {"abbrev":abbrev}).fetchone()
 
 def add_product_code(abbrev, name):
     try:

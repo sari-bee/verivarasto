@@ -1,43 +1,11 @@
-<!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/static/style.css">
-<title>Verivarasto</title>
-<div class="container">
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <a class="navbar-brand" href="/inventory">
-            <img src="/static/blood.jpeg" height="20">
-        </a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/inventory">Verivarasto</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/transfusions">Verensiirrot</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/patients">Potilaat</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/products">Valmistetoiminnot</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/maintenance">Ylläpito</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logs">Loki</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Kirjaudu ulos</a>
-            </li>
-        </ul>
-    </nav>
+{% extends "layout.html" %}
+{% block content %}
     <div class="row">
-        <div class="col-5" style="border: 1px;border-color:lightgrey;border-style:solid;margin: 10px;padding: 10px;">
+        <div class="col-5" id="margin">
             <h5>Verivarastot</h5>
-            <ul style="list-style-type:none;">
+            <ul>
             {% for inventory in inventories %}
-            <li> {{ ' '.join(inventory) }}
+            <li>{{ ''.join(inventory.inventory_abbrev) }} {{ ''.join(inventory.inventory_name) }}</li>
             {% endfor %}
             </ul>
             <h5>Lisää uusi verivarasto</h5>
@@ -56,9 +24,9 @@
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
-        <div class="col-5" style="border: 1px;border-color:lightgrey;border-style:solid;margin: 10px;padding: 10px;">
+        <div class="col-5" id="margin">
             <h5>Hoitoyksiköt</h5>
-            <ul style="list-style-type:none;">
+            <ul>
             {% for department in departments %}
             <li> {{ department.department_abbrev }} {{ department.department_name }}, verivarasto: {{ department.inventory_abbrev }}
             {% endfor %}
@@ -75,10 +43,10 @@
                 </div>
                 <div class="form-group">
                     <label for="inventory_abbrev">Palveleva verivarasto</label>
-                    <select required class="form-select" name="inventory_abbrev">
+                    <select required class="form-select" name="inventory_id">
                         <option selected=""></option>
                         {% for inventory in inventories %}
-                        <option value={{ ''.join(inventory.inventory_abbrev) }}>{{ ' '.join(inventory) }}</option>
+                        <option value={{ inventory.id }}>{{ ''.join(inventory.inventory_abbrev) }} {{ ''.join(inventory.inventory_name) }}</option>
                         {% endfor %}
                         </select>
                 </div>
@@ -90,11 +58,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-5" style="border: 1px;border-color:lightgrey;border-style:solid;margin: 10px;padding: 10px;">
+        <div class="col-5" id="margin">
             <h5>Valmistetyypit</h5>
-            <ul style="list-style-type:none;">
+            <ul>
             {% for product_code in product_codes %}
-            <li> {{ " ".join(product_code) }}
+            <li> {{ "".join(product_code.prod_code_abbrev) }} {{ "".join(product_code.prod_code_name) }}
             {% endfor %}
             </ul>
             <h5>Lisää uusi valmistetyyppi</h5>
@@ -113,9 +81,9 @@
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
         </div>
-        <div class="col-5" style="border: 1px;border-color:lightgrey;border-style:solid;margin: 10px;padding: 10px;">
-            <h5>Vaihda salasana</h5>
-            <p>Kirjautunut käyttäjä: {{ session.username }}</p>
+        <div class="col-5" id="margin">
+            <h5>Vaihda salasana käyttäjälle {{ session.username }}</h5>
+            <br>
             <form action="/changepassword" method="POST">
                 <div class="form-group">
                     <label for="oldpassword">Vanha salasana</label>
@@ -136,7 +104,4 @@
             </form>
         </div>
     </div>
-    <p class="text-center" style="font-weight: lighter;">
-        <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
-    </p>
-</div>
+{% endblock %}

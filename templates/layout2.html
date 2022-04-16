@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/style.css">
+<title>Verivarasto</title>
+<body>
+    <div class="container" style="padding: 50px;">
+        <img src="/static/blood.jpeg">
+        <h1>Verivarasto</h1>
+        <br>
+        <p class="text-center">
+            {% with messages = get_flashed_messages() %}  
+            {% for message in messages %}  
+            <b>{{ message }}</b>  
+            {% endfor %}
+            {% endwith %}
+        </p>
+        {% block content %}{% endblock %}
+        <br>
+        <p class="text-center" id="disclaimer">
+            <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
+        </p>
+    </div>
+</body>

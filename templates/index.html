@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/static/style.css">
-<title>Verivarasto</title>
-<div class="container" style="padding: 50px;">
-    <img src="/static/blood.jpeg">
-    <h1>Verivarasto</h1>
-    <br>
+{% extends "layout2.html" %}
+{% block content %}
     {% if session.username %}
-        <h5>Olet kirjautuneena sisään<br>nimellä {{ session.username }}</h5>
+        <h5 class="text-center">Olet kirjautuneena sisään<br>nimellä {{ session.username }}</h5>
         <br>
-        <p><a href="/inventory">Verivarastoon</a></p>
-        <p><a href="/logout">Kirjaudu ulos</a></p>
+        <p class="text-center"><a href="/inventory">Verivarastoon</a></p>
+        <p class="text-center"><a href="/logout">Kirjaudu ulos</a></p>
     {% else %}
         <div class="row">
             <div class="col-3"></div>
@@ -31,13 +24,6 @@
                 </form>
             </div>
         </div>
-        <p>
-            <i>{{ message }}</i>
-        </p>
-        <p><a href="/register">Rekisteröidy</a></p>
+        <p class="text-center"><a href="/register">Rekisteröidy</a></p>
     {% endif %}
-    <br>
-    <p style="font-weight: lighter">
-        <i>Sovellus on harjoitustyö eikä sisällä oikeita potilas- tai verivalmistetietoja.</i>
-    </p>
-</div>
+    {% endblock %}

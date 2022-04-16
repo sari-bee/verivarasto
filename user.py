@@ -61,7 +61,7 @@ def check_user_role(role):
         abort(403)
 
 def get_logs():
-    sql = "SELECT logtext, username, date FROM Logs, Users WHERE Users.id = Logs.user_id ORDER BY date ASC"
+    sql = "SELECT logtext, username, date FROM Logs, Users WHERE Users.id = Logs.user_id ORDER BY Logs.id DESC"
     return db.session.execute(sql).fetchall()
 
 def add_to_log(logtext):
