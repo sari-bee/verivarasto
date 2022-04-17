@@ -36,6 +36,7 @@ pip install -r requirements.txt
 6. Aseta ympäristömuuttujat luomalla projektikansioon tiedosto .env ja lisäämällä tiedoston sisällöksi seuraavat muuttujat:
 
 DATABASE_URL=PostgreSQL:n [connection string](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING)
+
 SECRET_KEY=satunnainen merkkijono
 
 7. Alusta tietokanta komennolla
