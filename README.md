@@ -1,36 +1,105 @@
 # Tietokantasovellus: Verivarasto
 
+Sovelluksen tarkoituksena on mallintaa verikeskuksen verivarastojen hallintaa. Verikeskuksessa on useita verivarastoja, joissa käsitellään verivalmisteita. Verivalmisteita sisäänkirjataan verivarastoon, josta ne lähetetään potilaille hoitoyksiköihin. Verivalmisteiden jäljitettävyys on tärkeää, joten jokaisesta sisäänkirjatusta verivalmisteesta tulee tietää, mitä sille on tapahtunut: mille potilaalle se on siirretty, tai onko se vanhentunut tai muuten hävitetty. Verikeskuksen toiminnot on rajattu tietylle käyttäjäryhmälle, joten kaikki sovelluksen näkymät ja toiminnot vaativat kirjautumisen.
+
+Mallisovellukseen tulee syöttää testidataa, jota ei voida sekoittaa todellisiin potilas- tai verivalmistetietoihin.
+
+Sovellus on käyttötarkoituksensa vuoksi käytettävissä työasemalla tai tabletilla, mutta sitä ei ole optimoitu puhelimen näytölle. 
+
+## Sovelluksen käyttö Herokussa:
+
 Heroku: https://verivarasto.herokuapp.com/
 
-## Tilanne palautuksessa 3.4.:
+Sovellus aukeaa kirjautumissivulle, josta pääset rekisteröitymään Rekisteröidy-linkin kautta. Ellet halua rekisteröityä, voit käyttää yhteiskäyttötunnuksia
+```bash
+aku.ankka
+Ankkalinna
+```
+Ethän vaihda yhteiskäyttötunnuksen salasanaa, kiitos!
 
-Käyttäjä- ja kirjautumistoiminnallisuutta ei vielä ole toteutettu, joten etusivulta siirrytään varsinaiseen sovellukseen suoraan klikkaamalla linkkiä. Varsinaisessa sovelluksessa navigoidaan ylälaidan linkkien avulla. Huomioitavaa on että missään lomakkeissa ei vielä ole varsinaisia validointeja (osassa virheellisiä syötteitä on virhekäsittely, mutta ei vielä virheilmoituksia käyttöliittymään).
+## Sovelluksen käyttö paikallisesti:
 
-Sovellus avautuu sivulle, jossa voi katsella ja hakea verivalmisteita eri hakuehdoilla. Hakuehdot täydentyvät vielä. Luovutusnumerohakuun voi napata numeron esimerkiksi Kaikki valmisteet-hausta, jossa luovutusnumero on jokaisen yksittäisen hakutuloksen ensimmäinen tietue. Tähän sivuun pääsee takaisin Verivarasto-linkistä. Verivarastotoiminnallisuuksista puuttuu vielä mahdollisuus siirtää valmiste toiseen varastoon ja mahdollisuus hävittää valmiste.
+1. Varmista, että koneellesi on asennettuna Python ja PostgreSQL.
+2. Kloonaa projekti koneellesi.
+3. Siirry projektin kansioon ja luo Pythonin virtuaaliympäristö komennolla 
+```bash
+python3 -m venv venv
+```
+4. Aktivoi virtuaaliympäristö komennolla
+```bash
+source venv/bin/activate
+```
+5. Asenna projektin riippuvuudet komennolla
+```bash
+pip install -r requirements.txt
+```
+6. Aseta ympäristömuuttujat luomalla projektikansioon tiedosto .env ja lisäämällä tiedoston sisällöksi seuraavat muuttujat:
+```bash
+DATABASE_URL=PostgreSQL:n [connection string](https://www.postgresql.org/docs/12/libpq-connect.html#LIBPQ-CONNSTRING)
+SECRET_KEY=satunnainen merkkijono
+```
+7. Alusta tietokanta komennolla
+```bash
+psql < schema.sql
+```
+8. Käynnistä sovellus komennolla
+```bash
+flask run
+```
 
-Verensiirron kirjaus-linkissä voi kirjata verensiirron. Alasvetovalikoissa on vaihtoehtoja vain, jos järjestelmässä on Käytettävissä olevia verivalmisteita (valmisteita, jotka eivät ole siirrettyjä potilaille tai vanhentuneita), ja jos järjestelmään on syötetty potilaita ja hoitoyksiköitä. Siirtopäivän voi toistaiseksi valita vapaasti, siinä ei ole validointia. Sovelluksessa ei myöskään toistaiseksi ole validointia valmisteen ja potilaan veriryhmän välillä. Lisäksi puuttuu valmisteen palautus varastoon (verensiirron peruminen). Verensiirron kirjauksessa ei tällä hetkellä tarkisteta sitä, yritetäänkö hoitoyksikköön lähettää sellaista valmistetta, joka on siinä verikeskuksessa, joka palvelee ko. hoitoyksikköä.
+Jatkossa voit käynnistää sovelluksen suorittamalla kohdat 4 ja 8. Virtuaaliympäristöstä voit poistua komennolla
+```bash
+deactivate
+```
 
-Verivalmisteen sisäänkirjauksessa voi sisäänkirjata verivalmisteen tiettyyn varastoon. Ne kentät, joissa ei ole alasvetovalikkoa, voi täyttää vapaasti. Fenotyypit-kenttä ei ole pakollinen. Kannattaa testata myös esimerkiksi jo valmiiksi vanhentuneen valmisteen syöttö ja huomata että sen tilaksi tulee Vanhentunut ja toisaalta sisäänkirjata valmiste, jonka sitten kirjaa siirretyksi potilaalle, jolloin huomaa, että valmisteen tilaksi muuttuu Siirretty.
+Tarvittaessa voit uudelleenalustaa tietokannan suorittamalla komennot
+```bash
+psql < drop_tables.sql
+```
+```bash
+psql < schema.sql
+```
 
-Potilaat-sivulla voi hakea alasvetovalikosta tietyn potilaan tiedot ja verensiirrot tai lisätä potilaan. Potilaan tiedot voi toistaiseksi syöttää vapaasti. Fenotyyppivaatimukset-kenttä ei ole pakollinen. Sovelluksesta puuttuu mahdollisuus lisätä fenotyyppivaatimuksia jo kannassa olevalle potilaalle.
+## Sovelluksen näkymät
 
-Ylläpitotoiminnoissa voi selata ja lisätä verivarastoja, hoitoyksiköitä ja valmistetyyppejä. Nämä voi syöttää vapaasti (poislukien hoitoyksikköä palvelevan verivaraston, joka valitaan alasvetovalikosta). Käyttäjä- ja kirjautumistoiminnallisuus tulee myöhemmin. Myöskään käyttäjiin liittyvää tietokantataulua ei vielä ole luotu.
+Käyttöliittymä ohjaa tarvittaessa syöttämään sovelluksen kenttiin oikean muotoista tietoa.
 
-## Alkuperäisidea:
+### Verivarasto
 
-Sovellus mallintaa verikeskuksen verivaraston hallintaa. Verivarastoja on useita, ja ne palvelevat kukin tiettyjä hoitoyksiköitä. Jokaiseen verivarastoon voidaan sisäänkirjata verivalmisteita, lähettää niitä potilaille, palauttaa, lähettää verivarastojen välillä tai hävittää. Verivalmisteet tulee kirjata siirretyiksi tietyille potilaille, valmisteen saaja tulee olla jäljitettävissä. Kaikesta toiminnasta jää lokitieto. Tätä varten sovellukseen tulee kirjautua.
+Verivarasto-sivulla voit hakea valmisteita eri hakuehdoilla. Valtaosassa hauista hakuehto valitaan pudotusvalikosta. Hae luovutusnumerolla - haku on kirjainkokoriippumaton ja tunnistaa myös osittaisen hakutermin. (Hakua varten tiedoksi, että valmisteen luovutusnumero on hakutuloksissa tietueen ensimmäinen tieto.) Varaston Käytettävissä-tilaiset verivalmisteet merkitään automaattisesti Vanhentunut-tilaan Käytettävä ennen -päivän jälkeen.
 
-Sovelluksessa käsitellään ainakin seuraavia erillisiä tietoja (tietokantatauluja):
-- Verivarastot, joissa on tietyt verivalmisteet ja jotka palvelevat tiettyjä hoitoyksiköitä
-- Hoitoyksiköt, joita palvelee tietty verivarasto; jokainen potilas saa yksittäisen verivalmisteen tietyssä hoitoyksikössä, mutta potilas voi saada valmisteita myös useassa hoitoyksikössä
-- Potilaat, jotka saavat verivalmisteita. Potilaalla on ominaisuuksia (mm. veriryhmä), jotka ohjaavat verivalmisteen valintaa.
-- Verivalmisteet, jotka ovat tietyssä verivarastossa, joita annetaan tietylle potilaalle tietyssä hoitoyksikössä, ja joilla on tietty tila (esim. varastossa, vanhentunut, siirretty, hävitetty). Verivalmisteilla on myös ominaisuuksia (mm. veriryhmä), jotka ohjaavat valmisteen valintaa potilaalle.
-- Verensiirtotapahtumat, joihin liittyy tietty hoitoyksikkö, potilas ja verivalmiste
-- Käyttäjät, jotka käsittelevät verivalmisteita eri tavoin (mm. sisäänkirjaus, lähetys potilaalle, hävitys)
+### Verensiirrot
 
-Toisin sanoen verivarastoon sisäänkirjattuja verivalmisteita voidaan tietyin säännöin (mm. veriryhmäsopivuus) lähettää potilaille siirrettäväksi. Valmisteita voidaan myös palauttaa, lähettää toiseen verivarastoon tai hävittää. Verivalmisteiden sisäänkirjauksessa syötetään määrämuotoista dataa (mm. luovutusnumero, käytettävä ennen -tieto, veriryhmä), jonka oikeellisuus on tarkistettava. Vastaavasti potilaasta syötetään tietokantaan määrämuotoista dataa (mm. hetu, veriryhmä). Potilas lisätään sovelluksen kautta, jos potilas ei vielä ole tietokannassa.
-Sovelluksesta tulee pystyä hakemaan listauksia eri kriteereillä (esimerkiksi tietylle potilaalle siirretyt verivalmisteet, hoitoyksikössä siirretyt verivalmisteet, tietyn verivaraston kaikki verivalmisteet, tietyn verivaraston voimassa olevat verivalmisteet, tietyn verivaraston valmisteet veriryhmän mukaan) sekä yksittäisen verivalmisteen tietoja luovutusnumeron perusteella.
+Verensiirrot-sivulla voit kirjata verensiirron tai hakea hoitoyksikön verensiirtoja. Jälleen valtaosin tiedot valitaan pudotusvalikosta. Verensiirron voi kirjata vain, jos varastossa on Käytettävissä-tilassa olevia verivalmisteita. Siirron päivämäärää ei ole rajattu.
 
-Mallisovellukseen syötetään testidataa, jota ei voida sekoittaa todellisiin verivalmiste- tai potilastietoihin.
+### Potilaat
 
-Valitsin aiheen, koska työskentelen verensiirtolääketieteen parissa ja haluan tutkia, minkälaisella tietomallilla verivarastokokonaisuutta voidaan hallita.
+Potilaat-sivulla voit hakea potilaan verensiirrot, potilas valitaan pudotusvalikosta. Lisäksi sivulla voi lisätä potilaan. Fenotyyppivaatimukset-kenttä ei ole pakollinen.
+
+### Valmistetoiminnot
+
+Valmistetoiminnot-sivulla voi sisäänkirjata valmisteen. Fenotyypit-kenttä ei ole pakollinen. Jälleen valtaosa tiedoista valitaan pudotusvalikosta. Käytettävä ennen -päivämäärää ei ole rajattu (jos Käytettävä ennen on menneisyydessä, valmiste siirtyy suoraan Vanhentunut-tilaan).
+
+### Ylläpito
+
+Ylläpito-sivulla voi lisätä verivarastoja, hoitoyksiköitä ja valmistetyyppejä sekä vaihtaa salasanansa.
+
+### Loki
+
+Loki-sivulle kertyy tietoa sovelluksessa tehdyistä toimenpiteistä.
+
+## Jatkokehitysideat
+
+Mahdollisia jatkokehitysideoita, joita osittain toteutan loppupalautukseen:
+- Luovutusnumerolla hakiessa pitäisi löytää potilas, jolle verivalmiste on siirretty.
+- Mahdollisuus palauttaa potilaalle kirjattu valmiste.
+- Rajaus, että verivalmisteen voi lähettää hoitoyksikköön vain siitä verivarastosta, joka palvelee ko. hoitoyksikköä.
+- Mahdollisuus lisätä potilaalle jälkikäteen fenotyyppivaatimuksia.
+- Mahdollisuus poistaa voimasta verivarastoja, hoitoyksiköitä ja valmistetyyppejä.
+- Lokitietoihin mahdollisuus rajata tietoja tai sivutus.
+
+Todellisuudessa käyttäjät eivät voisi tämän tyyppisessä sovelluksessa rekisteröityä itse, vaan esim. pääkäyttäjä lisäisi (ja poistaisi) käyttäjätunnukset. Tähän sovellukseen olen lähinnä käytännön syistä toteuttanut itserekisteröitymisen enkä myöskään toteuttanut erillistä pääkäyttäjäroolia.
+
+Sovelluksen lomakkeissa on useita kohtia, joissa valinta tehdään pudotusvalikosta. Tämä ei ole kovinkaan skaalautuva ratkaisu. Tein tämän ratkaisun tässä kontekstissa lähinnä siksi, että sovelluksen testaaminen on helpompaa kun kenttiin ei tarvitse osata vapaatekstinä antaa tietoja, joita tietokannasta jo löytyy. Todellisessa sovelluksessa tietenkin esimerkiksi potilaan haku verensiirron kirjauksessa tehtäisiin syöttämällä henkilötunnus vapaatekstinä.
+
+Verivalmisteita potilaalle lähetettäessä olisi mahdollista tarkistaa, että verivalmisteen veriryhmä sopii potilaalle. Tämä vaatii monimutkaista päättelyä erikoistapauksineen, joten tätä ei ole sovellukseen toteutettu. Käytännössä verikeskuksen työntekijöiden vastuulla on aina varmistaa, että valmisteen veriryhmä sopii potilaalle.

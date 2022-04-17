@@ -108,6 +108,7 @@ def addproduct():
     else:
         product_id = product.get_product_id(donation_number).id
         product.add_inventory_product(product_id, inventory_id, "Käytettävissä")
+        status.set_as_expired()
         inventory_abbrev = maintenance_functions.get_inventory_abbrev(inventory_id).inventory_abbrev
         user.add_to_log(f"Lisättiin valmiste {donation_number} varastoon {inventory_abbrev}")
         flash(f"Valmiste {donation_number} lisätty onnistuneesti!")
