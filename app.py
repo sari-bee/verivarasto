@@ -1,7 +1,10 @@
-from flask import Flask
 from os import getenv
+from flask import Flask
 
 app = Flask(__name__)
 app.secret_key = getenv("SECRET_KEY")
 
-import user_routes, product_routes, patient_routes, maintenance_routes
+import maintenance_routes
+import patient_routes
+import product_routes
+import user_routes
