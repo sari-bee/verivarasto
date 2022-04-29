@@ -7,10 +7,11 @@ from db import db
 
 def add_user(username, password, role):
     try:
-        hash = generate_password_hash(password)
-        sql = "INSERT INTO Users (username, password, role) VALUES (:username, :password, :role)"
+        salt = str(os.urandom(16))
+        hashed_password = generate_password_hash(password + salt)
+        sql = "INSERT INTO Users (username, password, salt, role) VALUES (:username, :password, :salt, :role)"
         db.session.execute(
-            sql, {"username": username, "password": hash, "role": role})
+            sql, {"username":username, "password":hashed_password, "salt":salt, "role":role})
         db.session.commit()
     except:
         return False
@@ -18,12 +19,13 @@ def add_user(username, password, role):
 
 
 def check_user_credentials(username, password):
-    sql = "SELECT password, role FROM Users WHERE username = :username"
-    user = db.session.execute(sql, {"username": username}).fetchone()
+    sql = "SELECT password, salt, role FROM Users WHERE username = :username"
+    user = db.session.execute(sql, {"username":username}).fetchone()
     if not user:
         return False
-    hash = user.password
-    if check_password_hash(hash, password):
+    hashed_password = user.password
+    salted_password = password + user.salt
+    if check_password_hash(hashed_password, salted_password):
         session["username"] = username
         session["role"] = user.role
         session["csrf_token"] = os.urandom(16).hex()
@@ -32,15 +34,18 @@ def check_user_credentials(username, password):
 
 
 def change_password(oldpassword, newpassword):
-    sql = "SELECT password FROM Users WHERE username = :username"
-    hashedpassword = db.session.execute(
-        sql, {"username": session["username"]}).fetchone()[0]
-    if check_password_hash(hashedpassword, oldpassword):
+    sql = "SELECT password, salt FROM Users WHERE username = :username"
+    user = db.session.execute(
+        sql, {"username": session["username"]}).fetchone()
+    old_hashed_password = user.password
+    old_salted_password = oldpassword + user.salt
+    if check_password_hash(old_hashed_password, old_salted_password):
         try:
-            hash = generate_password_hash(newpassword)
-            sql = "UPDATE Users SET password = :password WHERE username = :username"
+            salt = str(os.urandom(16))
+            new_hashed_password = generate_password_hash(newpassword + salt)
+            sql = "UPDATE Users SET password = :password, salt = :salt WHERE username = :username"
             db.session.execute(
-                sql, {"password": hash, "username": session["username"]})
+                sql, {"password":new_hashed_password, "salt":salt, "username":session["username"]})
             db.session.commit()
             return True
         except:
@@ -78,5 +83,5 @@ def add_to_log(logtext):
         sql, {"username": session["username"]}).fetchone()[0]
     sql = "INSERT INTO Logs (logtext, user_id, date) VALUES (:logtext, :user_id, :date)"
     db.session.execute(
-        sql, {"logtext": logtext, "user_id": user_id, "date": date.today()})
+        sql, {"logtext":logtext, "user_id":user_id, "date":date.today()})
     db.session.commit()

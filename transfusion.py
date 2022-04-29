@@ -6,7 +6,7 @@ def get_transfusions_by_department(department_id):
         FROM Transfusions, Patients, Products, Product_codes WHERE Transfusions.patient_id = Patients.id 
         AND Transfusions.product_id = Products.id AND Products.product_code_id = Product_codes.id
         AND department_id = :department_id  ORDER BY Transfusions.id DESC"""
-    return db.session.execute(sql, {"department_id": department_id}).fetchall()
+    return db.session.execute(sql, {"department_id":department_id}).fetchall()
 
 
 def get_transfusions_by_patient(patient_id):
@@ -15,15 +15,15 @@ def get_transfusions_by_patient(patient_id):
         WHERE Transfusions.product_id = Products.id AND Products.product_code_id = Product_codes.id
         AND Departments.id = Transfusions.department_id AND patient_id = :patient_id
         ORDER BY Transfusions.id DESC"""
-    return db.session.execute(sql, {"patient_id": patient_id}).fetchall()
+    return db.session.execute(sql, {"patient_id":patient_id}).fetchall()
 
 
 def add_transfusion(product_id, patient_id, department_id, date):
     try:
         sql = """INSERT INTO Transfusions (product_id, patient_id, department_id, date)
             VALUES (:product_id, :patient_id, :department_id, :date)"""
-        db.session.execute(sql, {"product_id": product_id, "patient_id": patient_id,
-                                 "department_id": department_id, "date": date})
+        db.session.execute(sql, {"product_id":product_id, "patient_id":patient_id,
+                                 "department_id":department_id, "date":date})
         db.session.commit()
         return True
     except:

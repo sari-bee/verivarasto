@@ -17,7 +17,7 @@ def get_products_by_status(status):
         AND Products.id = Inventory_products.product_id
         AND Inventories.id = Inventory_products.inventory_id
         AND status = :status ORDER BY Products.id DESC"""
-    return db.session.execute(sql, {"status": status}).fetchall()
+    return db.session.execute(sql, {"status":status}).fetchall()
 
 
 def get_products_by_inventory(inventory_id):
@@ -27,7 +27,7 @@ def get_products_by_inventory(inventory_id):
         AND Products.id = Inventory_products.product_id
         AND Inventories.id = Inventory_products.inventory_id
         AND Inventories.id = :inventory_id ORDER BY Products.id DESC"""
-    return db.session.execute(sql, {"inventory_id": inventory_id}).fetchall()
+    return db.session.execute(sql, {"inventory_id":inventory_id}).fetchall()
 
 
 def get_prod_by_status_and_inventory(status, inventory_id):
@@ -37,7 +37,7 @@ def get_prod_by_status_and_inventory(status, inventory_id):
         AND Products.id = Inventory_products.product_id
         AND Inventories.id = Inventory_products.inventory_id
         AND Inventories.id = :inventory_id AND status = :status ORDER BY Products.id DESC"""
-    return db.session.execute(sql, {"inventory_id": inventory_id, "status": status}).fetchall()
+    return db.session.execute(sql, {"inventory_id":inventory_id, "status":status}).fetchall()
 
 
 def get_prod_by_status_and_bloodgroup(status, bloodgroup):
@@ -47,7 +47,7 @@ def get_prod_by_status_and_bloodgroup(status, bloodgroup):
         AND Products.id = Inventory_products.product_id
         AND Inventories.id = Inventory_products.inventory_id
         AND bloodgroup = :bloodgroup AND status = :status ORDER BY Products.id DESC"""
-    return db.session.execute(sql, {"bloodgroup": bloodgroup, "status": status}).fetchall()
+    return db.session.execute(sql, {"bloodgroup":bloodgroup, "status":status}).fetchall()
 
 
 def get_product_by_donation_number(donation_number):
@@ -58,4 +58,4 @@ def get_product_by_donation_number(donation_number):
         AND Products.id = Inventory_products.product_id
         AND Inventories.id = Inventory_products.inventory_id 
         AND LOWER(donation_number) LIKE LOWER(:donation_number) ORDER BY Products.id DESC"""
-    return db.session.execute(sql, {"donation_number": like_donation_number}).fetchall()
+    return db.session.execute(sql, {"donation_number":like_donation_number}).fetchall()
