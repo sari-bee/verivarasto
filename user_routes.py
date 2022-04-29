@@ -49,9 +49,11 @@ def register():
 
 @app.route("/changepassword", methods=["POST"])
 def change_password():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     oldpassword = request.form["oldpassword"]
     newpassword = request.form["newpassword"]
     newpassword2 = request.form["newpassword2"]
@@ -68,6 +70,7 @@ def change_password():
 
 @app.route("/logs")
 def logs():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     logs = user.get_logs()
     return render_template("logs.html", logs=logs)

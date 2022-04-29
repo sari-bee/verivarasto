@@ -9,7 +9,8 @@ import search
 
 @app.route("/inventory")
 def inventory():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     status.set_as_expired()
     inventories = maintenance_functions.get_inventories()
     products = search.get_products_by_status("Käytettävissä")
@@ -24,7 +25,8 @@ def inventory():
 
 @app.route("/getproductsbyinventory", methods=["POST"])
 def getproductsbyinventory():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     inventories = maintenance_functions.get_inventories()
     inventory_id = request.form["inventory_id"]
     if inventory_id == "all":
@@ -45,7 +47,8 @@ def getproductsbyinventory():
 
 @app.route("/getuseableprodbyinventory", methods=["POST"])
 def getuseableprodbyinventory():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     inventories = maintenance_functions.get_inventories()
     inventory_id = request.form["inventory_id"]
     if inventory_id == "all":
@@ -67,7 +70,8 @@ def getuseableprodbyinventory():
 
 @app.route("/getprodbybloodgroup", methods=["POST"])
 def getprodbybloodgroup():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     inventories = maintenance_functions.get_inventories()
     bloodgroup = request.form["bloodgroup"]
     products = search.get_prod_by_status_and_bloodgroup(
@@ -83,7 +87,8 @@ def getprodbybloodgroup():
 
 @app.route("/getproductbydonationnumber", methods=["POST"])
 def getproductbydonationnumber():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     inventories = maintenance_functions.get_inventories()
     donation_number = request.form["donation_number"]
     listing_type = "Valmisteet haulla " + donation_number
@@ -103,7 +108,8 @@ def getproductbydonationnumber():
 
 @app.route("/products")
 def products():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     inventories = maintenance_functions.get_inventories()
     product_codes = maintenance_functions.get_product_codes()
     products = product.get_useable_product_listing()
@@ -113,9 +119,11 @@ def products():
 
 @app.route("/addproduct", methods=["POST"])
 def addproduct():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     donation_number = request.form["donation_number"]
     prod_code_id = request.form["product_code_id"]
     bloodgroup = request.form["bloodgroup"]
@@ -141,9 +149,11 @@ def addproduct():
 
 @app.route("/destroyproduct", methods=["POST"])
 def destroyproduct():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     product_id = request.form["product_id"]
     reason = request.form["reason"]
     if len(reason) < 3 or len(reason) > 100:
@@ -160,9 +170,11 @@ def destroyproduct():
 
 @app.route("/moveproduct", methods=["POST"])
 def moveproduct():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     product_id = request.form["product_id"]
     new_inventory_id = request.form["new_inventory_id"]
     product.change_inventories(product_id, new_inventory_id)

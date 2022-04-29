@@ -10,7 +10,8 @@ import user
 
 @app.route("/patients", methods=["GET", "POST"])
 def patients():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     patients = patient.get_patients()
     if request.method == "GET":
         patient_transfusions = []
@@ -32,7 +33,8 @@ def patients():
 
 @app.route("/transfusions", methods=["GET", "POST"])
 def transfusions():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     products = product.get_useable_product_listing()
     patients = patient.get_patients()
     departments = maintenance_functions.get_departments()
@@ -57,9 +59,11 @@ def transfusions():
 
 @app.route("/addpatient", methods=["POST"])
 def addpatient():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     ssn = request.form["ssn"]
     patient_name = request.form["patient_name"]
     bloodgroup = request.form["bloodgroup"]
@@ -80,9 +84,11 @@ def addpatient():
 
 @app.route("/addtransfusion", methods=["POST"])
 def addtransfusion():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     product_id = request.form["product_id"]
     patient_id = request.form["patient_id"]
     department_id = request.form["department_id"]

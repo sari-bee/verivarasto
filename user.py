@@ -1,7 +1,7 @@
 import os
 from datetime import date
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask import abort, session
+from flask import session
 from db import db
 
 
@@ -63,12 +63,13 @@ def delete_session():
 
 def check_csrf_token(csrf_token):
     if session["csrf_token"] != csrf_token:
-        abort(403)
-
+        return False
+    return True
 
 def check_user_role(role):
     if session.get("role", 0) != role:
-        abort(403)
+        return False
+    return True
 
 
 def get_logs():

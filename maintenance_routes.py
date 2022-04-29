@@ -6,7 +6,8 @@ import user
 
 @app.route("/maintenance")
 def maintenance():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     product_codes = maintenance_functions.get_product_codes()
     inventories = maintenance_functions.get_inventories()
     departments = maintenance_functions.get_departments_and_inventory()
@@ -16,9 +17,11 @@ def maintenance():
 
 @app.route("/addinventory", methods=["POST"])
 def addinventory():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     inventory_abbrev = request.form["inventory_abbrev"]
     inventory_name = request.form["inventory_name"]
     if len(inventory_abbrev) < 3 or len(inventory_abbrev) > 10:
@@ -34,9 +37,11 @@ def addinventory():
 
 @app.route("/adddepartment", methods=["POST"])
 def adddepartment():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     department_abbrev = request.form["department_abbrev"]
     department_name = request.form["department_name"]
     inventory_id = request.form["inventory_id"]
@@ -54,9 +59,11 @@ def adddepartment():
 
 @app.route("/addproductcode", methods=["POST"])
 def addproductcode():
-    user.check_user_role(1)
+    if not user.check_user_role(1):
+        return redirect("/")
     csrf_token = request.form["csrf_token"]
-    user.check_csrf_token(csrf_token)
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
     prod_code_abbrev = request.form["prod_code_abbrev"]
     prod_code_name = request.form["prod_code_name"]
     if len(prod_code_abbrev) < 3 or len(prod_code_abbrev) > 10:
