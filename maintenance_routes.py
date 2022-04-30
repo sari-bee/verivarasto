@@ -22,8 +22,8 @@ def addinventory():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    inventory_abbrev = request.form["inventory_abbrev"]
-    inventory_name = request.form["inventory_name"]
+    inventory_abbrev = request.form["inventory_abbrev"].strip()
+    inventory_name = request.form["inventory_name"].strip()
     if len(inventory_abbrev) < 3 or len(inventory_abbrev) > 10:
         flash("Syötit väärän pituisen syötteen")
     elif len(inventory_name) < 3 or len(inventory_name) > 50:
@@ -42,9 +42,9 @@ def adddepartment():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    department_abbrev = request.form["department_abbrev"]
-    department_name = request.form["department_name"]
-    inventory_id = request.form["inventory_id"]
+    department_abbrev = request.form["department_abbrev"].strip()
+    department_name = request.form["department_name"].strip()
+    inventory_id = request.form["inventory_id"].strip()
     if len(department_abbrev) < 3 or len(department_abbrev) > 10:
         flash("Syötit väärän pituisen syötteen")
     elif len(department_name) < 3 or len(department_name) > 50:
@@ -64,8 +64,8 @@ def addproductcode():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    prod_code_abbrev = request.form["prod_code_abbrev"]
-    prod_code_name = request.form["prod_code_name"]
+    prod_code_abbrev = request.form["prod_code_abbrev"].strip()
+    prod_code_name = request.form["prod_code_name"].strip()
     if len(prod_code_abbrev) < 3 or len(prod_code_abbrev) > 10:
         flash("Syötit väärän pituisen syötteen")
     elif len(prod_code_name) < 3 or len(prod_code_name) > 50:

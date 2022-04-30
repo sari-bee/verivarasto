@@ -28,7 +28,7 @@ def getproductsbyinventory():
     if not user.check_user_role(1):
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
-    inventory_id = request.form["inventory_id"]
+    inventory_id = request.form["inventory_id"].strip()
     if inventory_id == "all":
         products = search.get_all_products()
         listing_type = "Kaikki valmisteet"
@@ -50,7 +50,7 @@ def getuseableprodbyinventory():
     if not user.check_user_role(1):
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
-    inventory_id = request.form["inventory_id"]
+    inventory_id = request.form["inventory_id"].strip()
     if inventory_id == "all":
         products = search.get_products_by_status("Käytettävissä")
         listing_type = "Käytettävissä olevat valmisteet"
@@ -73,7 +73,7 @@ def getprodbybloodgroup():
     if not user.check_user_role(1):
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
-    bloodgroup = request.form["bloodgroup"]
+    bloodgroup = request.form["bloodgroup"].strip()
     products = search.get_prod_by_status_and_bloodgroup(
         "Käytettävissä", bloodgroup)
     listing_type = "Käytettävissä olevat veriryhmän " + bloodgroup + " valmisteet"
@@ -90,7 +90,7 @@ def getproductbydonationnumber():
     if not user.check_user_role(1):
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
-    donation_number = request.form["donation_number"]
+    donation_number = request.form["donation_number"].strip()
     listing_type = "Valmisteet haulla " + donation_number
     if len(donation_number) < 3 or len(donation_number) > 20:
         flash("Syötit väärän pituisen hakusanan")
@@ -124,12 +124,12 @@ def addproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    donation_number = request.form["donation_number"]
-    prod_code_id = request.form["product_code_id"]
-    bloodgroup = request.form["bloodgroup"]
-    phenotypes = request.form["phenotypes"]
-    use_before = request.form["use_before"]
-    inventory_id = request.form["inventory_id"]
+    donation_number = request.form["donation_number"].strip()
+    prod_code_id = request.form["product_code_id"].strip()
+    bloodgroup = request.form["bloodgroup"].strip()
+    phenotypes = request.form["phenotypes"].strip()
+    use_before = request.form["use_before"].strip()
+    inventory_id = request.form["inventory_id"].strip()
     if len(donation_number) < 3 or len(donation_number) > 20 or len(phenotypes) > 200:
         flash("Syötit väärän pituisen syötteen")
     elif not product.add_product(donation_number, prod_code_id, bloodgroup, phenotypes, use_before):
@@ -154,7 +154,7 @@ def destroyproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    product_id = request.form["product_id"]
+    product_id = request.form["product_id"].strip()
     reason = request.form["reason"]
     if len(reason) < 3 or len(reason) > 100:
         flash("Syötit väärän pituisen syötteen")
@@ -175,8 +175,8 @@ def moveproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    product_id = request.form["product_id"]
-    new_inventory_id = request.form["new_inventory_id"]
+    product_id = request.form["product_id"].strip()
+    new_inventory_id = request.form["new_inventory_id"].strip()
     product.change_inventories(product_id, new_inventory_id)
     inventory_abbrev = maintenance_functions.get_inventory_abbrev(
         new_inventory_id).inventory_abbrev

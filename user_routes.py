@@ -10,8 +10,8 @@ def index():
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form["username"].strip()
+    password = request.form["password"].strip()
     if not user.check_user_credentials(username, password):
         flash("Käyttäjätunnus tai salasana on väärin")
         return redirect("/")
@@ -29,9 +29,9 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        password2 = request.form["password2"]
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
+        password2 = request.form["password2"].strip()
         if len(username) < 3 or len(username) > 20 or len(password) < 6 or len(password) > 20:
             flash("Syötit väärän pituisen käyttäjätunnuksen tai salasanan")
             return render_template("register.html")
@@ -53,9 +53,9 @@ def change_password():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    oldpassword = request.form["oldpassword"]
-    newpassword = request.form["newpassword"]
-    newpassword2 = request.form["newpassword2"]
+    oldpassword = request.form["oldpassword"].strip()
+    newpassword = request.form["newpassword"].strip()
+    newpassword2 = request.form["newpassword2"].strip()
     if len(newpassword) < 6 or len(newpassword) > 20:
         flash("Syötit väärän pituisen käyttäjätunnuksen tai salasanan")
     elif newpassword != newpassword2:

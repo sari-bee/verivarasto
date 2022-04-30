@@ -18,7 +18,7 @@ def patients():
         patient_by_id = []
         search_message = ""
     if request.method == "POST":
-        patient_id = request.form["patient_id"]
+        patient_id = request.form["patient_id"].strip()
         patient_by_id = patient.get_patient_by_id(patient_id)
         patient_transfusions = transfusion.get_transfusions_by_patient(
             patient_id)
@@ -43,7 +43,7 @@ def transfusions():
         department_transfusions = []
         search_message = ""
     if request.method == "POST":
-        department_id = request.form["department_id"]
+        department_id = request.form["department_id"].strip()
         department = maintenance_functions.get_department(department_id)
         department_transfusions = transfusion.get_transfusions_by_department(
             department_id)
@@ -65,9 +65,9 @@ def addpatient():
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
     ssn = request.form["ssn"]
-    patient_name = request.form["patient_name"]
-    bloodgroup = request.form["bloodgroup"]
-    phenotype_reqs = request.form["phenotype_reqs"]
+    patient_name = request.form["patient_name"].strip()
+    bloodgroup = request.form["bloodgroup"].strip()
+    phenotype_reqs = request.form["phenotype_reqs"].strip()
     if len(ssn) < 3 or len(ssn) > 20:
         flash("Syötit väärän pituisen syötteen")
     elif len(patient_name) < 3 or len(patient_name) > 50:
@@ -89,10 +89,10 @@ def addtransfusion():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    product_id = request.form["product_id"]
-    patient_id = request.form["patient_id"]
-    department_id = request.form["department_id"]
-    date = request.form["date"]
+    product_id = request.form["product_id"].strip()
+    patient_id = request.form["patient_id"].strip()
+    department_id = request.form["department_id"].strip()
+    date = request.form["date"].strip()
     if not transfusion.add_transfusion(product_id, patient_id, department_id, date):
         flash("Verensiirron lisääminen epäonnistui")
     else:
