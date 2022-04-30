@@ -18,7 +18,7 @@
                     <button type="submit" class="btn btn-outline-dark">Hae tiedot</button>
                 </div>
             </form>
-            {% if patient_by_id.ssn %}
+            {% if patient_by_id.id %}
                 <h5>{{ patient_by_id.ssn }} {{ patient_by_id.patient_name }} {{ patient_by_id.bloodgroup }} {{ patient_by_id.phenotype_reqs }}</h5>
                 <ul>
                 {% for transfusion in patient_transfusions %}
@@ -27,8 +27,21 @@
                     {{ transfusion.bloodgroup }} {{ transfusion.phenotypes }} // {{ transfusion.date }}, {{ transfusion.department_abbrev }}
                 {% endfor %}
                 </ul>
+                {{ search_message }}
+                <hr>
+                <form action="/newphenotypereq" method="POST">
+                    <div class="form-group">
+                        <label for="new_phenotype_req">Lisää potilaalle fenotyyppivaatimus</label>
+                        <input type="text" class="form-control" id="new_phenotype_req" name="new_phenotype_req" maxlength="200">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-dark">Tallenna</button>
+                    </div>
+                    <input type="hidden" name="patient_id" value="{{ patient_by_id.id }}">
+                    <input type="hidden" name="ssn" value="{{ patient_by_id.ssn }}">
+                    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                </form>
             {% endif %}
-            {{ search_message }}
         </div>
         <div class="col-5" id="margin">
             <h5>Lisää potilas</h5>

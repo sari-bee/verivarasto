@@ -64,7 +64,7 @@ def addpatient():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
-    ssn = request.form["ssn"]
+    ssn = request.form["ssn"].strip()
     patient_name = request.form["patient_name"].strip()
     bloodgroup = request.form["bloodgroup"].strip()
     phenotype_reqs = request.form["phenotype_reqs"].strip()
@@ -80,6 +80,27 @@ def addpatient():
         user.add_to_log(f"Lisättiin potilas {ssn}")
         flash(f"Potilas {ssn} lisätty")
     return redirect("/patients")
+
+@app.route("/newphenotypereq", methods=["POST"])
+def newphenotypereq():
+    if not user.check_user_role(1):
+        return redirect("/")
+    csrf_token = request.form["csrf_token"]
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
+    new_phenotype_req = request.form["new_phenotype_req"].strip()
+    patient_id = request.form["patient_id"]
+    ssn = request.form["ssn"]
+    if len(new_phenotype_req) == 0 or len(new_phenotype_req) > 200:
+        flash("Syötit väärän pituisen syötteen")
+    elif not patient.add_phenotype_reqs(patient_id, new_phenotype_req):
+        flash("Fenotyyppivaatimusten lisääminen epäonnistui, tarkista tiedot ja yritä uudelleen")
+    else:
+        user.add_to_log(f"Lisättiin fenotyyppivaatimus {new_phenotype_req} potilaalle {ssn}")
+        flash(f"Fenotyyppivaatimus lisätty potilaalle {ssn}")
+    return redirect("/patients")
+    
+
 
 
 @app.route("/addtransfusion", methods=["POST"])
