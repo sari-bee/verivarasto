@@ -42,8 +42,7 @@ def register():
         if not user.add_user(username, password, role):
             flash("Käyttäjätunnus on jo käytössä")
             return render_template("register.html")
-        flash("Rekisteröityminen onnistui. Voit nyt kirjautua sisään.")
-        return redirect("/")
+        return redirect("/inventory")
     return render_template("register.html")
 
 

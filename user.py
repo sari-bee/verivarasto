@@ -15,6 +15,7 @@ def add_user(username, password, role):
         db.session.commit()
     except:
         return False
+    check_user_credentials(username, password)
     return True
 
 
