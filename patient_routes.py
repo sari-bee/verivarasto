@@ -96,20 +96,23 @@ def newphenotypereq():
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
     patients = patient.get_patients()
-    patient_transfusions = []
-    patient_by_id = []
-    search_message = ""
     new_phenotype_req = request.form["new_phenotype_req"].strip()
     patient_id = request.form["patient_id"]
-    ssn = request.form["ssn"]
+    patient_by_id = patient.get_patient_by_id(patient_id)
+    patient_transfusions = transfusion.get_transfusions_by_patient(
+        patient_id)
+    if patient_transfusions == []:
+        search_message = "Ei verensiirtoja"
+    else:
+        search_message = ""
+    ssn = request.form["patient_ssn"]
     if len(new_phenotype_req) == 0 or len(new_phenotype_req) > 200:
         flash("Syötit väärän pituisen syötteen")
     elif not patient.add_phenotype_reqs(patient_id, new_phenotype_req):
         flash("Fenotyyppivaatimusten lisääminen epäonnistui, tarkista tiedot ja yritä uudelleen")
     else:
         user.add_to_log(f"Lisättiin fenotyyppivaatimus {new_phenotype_req} potilaalle {ssn}")
-        flash(f"Fenotyyppivaatimus lisätty potilaalle {ssn}")
-        return redirect("/patients")
+        patient_by_id = patient.get_patient_by_id(patient_id)     
     return render_template("patients.html", patients=patients,
                            patient_transfusions=patient_transfusions, patient_by_id=patient_by_id,
                            search_message=search_message)

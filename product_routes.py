@@ -131,10 +131,14 @@ def addproduct():
     sent_products = product.get_sent_products()
     donation_number = request.form["donation_number"].strip()
     prod_code_id = request.form["product_code_id"].strip()
+    prod_code_abbrev = maintenance_functions.get_prod_abbrev_name(prod_code_id)[0]
+    prod_code_name = maintenance_functions.get_prod_abbrev_name(prod_code_id)[1]
     bloodgroup = request.form["bloodgroup"].strip()
     phenotypes = request.form["phenotypes"].strip()
     use_before = request.form["use_before"].strip()
     inventory_id = request.form["inventory_id"].strip()
+    inventory_abbrev = maintenance_functions.get_inventory_abbrev_name(inventory_id)[0]
+    inventory_name = maintenance_functions.get_inventory_abbrev_name(inventory_id)[1]
     if len(donation_number) < 3 or len(donation_number) > 20 or len(phenotypes) > 200:
         flash("Syötit väärän pituisen syötteen")
     elif not product.add_product(donation_number, prod_code_id, bloodgroup, phenotypes, use_before):
@@ -151,7 +155,9 @@ def addproduct():
         flash(f"Valmiste {donation_number} lisätty onnistuneesti!")
         return redirect("/products")
     return render_template("products.html", product_codes=product_codes,
-                           inventories=inventories, products=products, sent_products=sent_products)
+                           inventories=inventories, products=products, sent_products=sent_products,
+                           inventory_abbrev=inventory_abbrev, inventory_name=inventory_name,
+                           prod_code_abbrev=prod_code_abbrev, prod_code_name=prod_code_name)
 
 @app.route("/destroyproduct", methods=["POST"])
 def destroyproduct():
@@ -166,7 +172,7 @@ def destroyproduct():
     sent_products = product.get_sent_products()
     product_id = request.form["product_id"].strip()
     reason = request.form["reason"].strip()
-    if len(reason) < 3 or len(reason) > 100:
+    if len(reason) > 200:
         flash("Syötit väärän pituisen syötteen")
     else:
         status.set_new_status("Hävitetty", product_id)

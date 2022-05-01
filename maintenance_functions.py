@@ -34,11 +34,13 @@ def get_inventories():
     sql = "SELECT id, inventory_abbrev, inventory_name FROM Inventories"
     return db.session.execute(sql).fetchall()
 
-
 def get_inventory_abbrev(inventory_id):
     sql = "SELECT inventory_abbrev FROM Inventories WHERE id = :inventory_id"
     return db.session.execute(sql, {"inventory_id":inventory_id}).fetchone()
 
+def get_inventory_abbrev_name(inventory_id):
+    sql = "SELECT inventory_abbrev, inventory_name FROM Inventories WHERE id = :inventory_id"
+    return db.session.execute(sql, {"inventory_id":inventory_id}).fetchone()
 
 def add_inventory(abbrev, name):
     try:
@@ -50,11 +52,13 @@ def add_inventory(abbrev, name):
         return False
     return True
 
-
 def get_product_codes():
     sql = "SELECT id, prod_code_abbrev, prod_code_name FROM Product_codes"
     return db.session.execute(sql).fetchall()
 
+def get_prod_abbrev_name(prod_code_id):
+    sql = "SELECT prod_code_abbrev, prod_code_name FROM Product_codes WHERE id = :prod_code_id"
+    return db.session.execute(sql, {"prod_code_id":prod_code_id}).fetchone()
 
 def add_product_code(abbrev, name):
     try:

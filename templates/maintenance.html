@@ -44,11 +44,11 @@
                 <div class="form-group">
                     <label for="inventory_id">Palveleva verivarasto</label>
                     <select required class="form-select" name="inventory_id">
-                        <option selected="{{ request.form.get('inventory_id', '') }}">{{ request.form.get('inventory_id', '') }}</option>
+                        <option selected="{{ request.form.get('inventory_id', '') }}">{{ inventory_abbrev }} {{ inventory_name }}</option>
                         {% for inventory in inventories %}
                         <option value={{ inventory.id }}>{{ ''.join(inventory.inventory_abbrev) }} {{ ''.join(inventory.inventory_name) }}</option>
                         {% endfor %}
-                        </select>
+                    </select>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>

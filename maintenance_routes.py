@@ -53,6 +53,8 @@ def adddepartment():
     department_abbrev = request.form["department_abbrev"].strip()
     department_name = request.form["department_name"].strip()
     inventory_id = request.form["inventory_id"].strip()
+    inventory_abbrev = maintenance_functions.get_inventory_abbrev_name(inventory_id)[0]
+    inventory_name = maintenance_functions.get_inventory_abbrev_name(inventory_id)[1]
     if len(department_abbrev) < 3 or len(department_abbrev) > 10:
         flash("Syötit väärän pituisen syötteen")
     elif len(department_name) < 3 or len(department_name) > 50:
@@ -64,7 +66,8 @@ def adddepartment():
         user.add_to_log(f"Lisättiin hoitoyksikkö {department_abbrev}")
         return redirect("/maintenance")
     return render_template("maintenance.html", product_codes=product_codes,
-                           inventories=inventories, departments=departments)
+                           inventories=inventories, departments=departments,
+                           inventory_abbrev=inventory_abbrev, inventory_name=inventory_name)
 
 
 @app.route("/addproductcode", methods=["POST"])
