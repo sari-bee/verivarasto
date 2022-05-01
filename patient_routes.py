@@ -99,9 +99,6 @@ def newphenotypereq():
         user.add_to_log(f"Lisättiin fenotyyppivaatimus {new_phenotype_req} potilaalle {ssn}")
         flash(f"Fenotyyppivaatimus lisätty potilaalle {ssn}")
     return redirect("/patients")
-    
-
-
 
 @app.route("/addtransfusion", methods=["POST"])
 def addtransfusion():
@@ -122,6 +119,6 @@ def addtransfusion():
             product_id).donation_number
         ssn = patient.get_patient_by_id(patient_id).ssn
         user.add_to_log(
-            f"Kirjattiin valmisteen {donation_number} siirto potilaalle {ssn}")
-        flash(f"Valmiste {donation_number} kirjattu potilaalle {ssn}")
+            f"Kirjattiin valmisteen {donation_number} lähetys potilaalle {ssn}")
+        flash(f"Valmiste {donation_number} lähetetty potilaalle {ssn}")
     return redirect("/transfusions")

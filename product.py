@@ -10,6 +10,13 @@ def get_useable_product_listing():
         AND status = :status ORDER BY Products.id DESC"""
     return db.session.execute(sql, {"status":"Käytettävissä"}).fetchall()
 
+def get_sent_products():
+    sql = """SELECT Products.id, donation_number, prod_code_abbrev
+        FROM Products, Product_codes, Inventory_products
+        WHERE Products.product_code_id = Product_codes.id
+        AND Products.id = Inventory_products.product_id
+        AND status = :status ORDER BY Products.id DESC"""
+    return db.session.execute(sql, {"status":"Siirretty"}).fetchall()
 
 def get_donation_number(product_id):
     sql = "SELECT donation_number FROM Products WHERE id = :product_id"

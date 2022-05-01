@@ -83,6 +83,25 @@
         </form>
       </div>
       <div class="row" id="margin">
+        <h5>Palauta hoitoyksikköön lähetetty valmiste</h5>
+        <br>
+        <form action="/returnproduct" method="POST">
+          <div class="form-group">
+            <label for="return_product_id">Valmiste</label>
+            <select required class="form-select" name="return_product_id">
+              <option selected=""></option>
+              {% for sent_product in sent_products %}
+              <option value={{ sent_product.id }}>{{ ''.join(sent_product.donation_number) }} {{ ''.join(sent_product.prod_code_abbrev) }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark">Tallenna</button>
+          </div>
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        </form>
+      </div>
+      <div class="row" id="margin">
         <h5>Siirrä valmiste toiseen varastoon</h5>
         <br>
         <form action="/moveproduct" method="POST">

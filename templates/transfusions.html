@@ -23,7 +23,7 @@
         <ul>
         {% for transfusion in department_transfusions %}
         <li><b>{{ transfusion.date }}</b> {{ transfusion.donation_number }} {{ transfusion.prod_code_abbrev }} 
-          ({{ transfusion.prod_code_name}}), saaja {{ transfusion.patient_name }} ({{ transfusion.ssn }})
+          ({{ transfusion.prod_code_name}}), potilas {{ transfusion.patient_name }} ({{ transfusion.ssn }})
         {% endfor %}
         </ul>
       {% endif %}

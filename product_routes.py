@@ -5,7 +5,7 @@ import status
 import maintenance_functions
 import user
 import search
-
+import transfusion
 
 @app.route("/inventory")
 def inventory():
@@ -113,8 +113,9 @@ def products():
     inventories = maintenance_functions.get_inventories()
     product_codes = maintenance_functions.get_product_codes()
     products = product.get_useable_product_listing()
+    sent_products = product.get_sent_products()
     return render_template("products.html", product_codes=product_codes,
-                           inventories=inventories, products=products)
+                           inventories=inventories, products=products, sent_products=sent_products)
 
 
 @app.route("/addproduct", methods=["POST"])
@@ -167,6 +168,24 @@ def destroyproduct():
         flash(f"Valmiste {donation_number} hävitetty")
     return redirect("/products")
 
+@app.route("/returnproduct", methods=["POST"])
+def returnproduct():
+    if not user.check_user_role(1):
+        return redirect("/")
+    csrf_token = request.form["csrf_token"]
+    if not user.check_csrf_token(csrf_token):
+        return redirect("/")
+    return_product_id = request.form["return_product_id"].strip()
+    transfusion_id = transfusion.get_transfusion_by_product(return_product_id)[0]
+    if not transfusion.remove_transfusion(transfusion_id):
+        flash("Valmistetta ei voida palauttaa.")
+    else:
+        status.set_new_status("Käytettävissä", return_product_id)         
+        donation_number = product.get_donation_number(return_product_id).donation_number
+        user.add_to_log(
+            f"Palautettiin valmiste {donation_number} varastoon")
+        flash(f"Valmiste {donation_number} palautettu varastoon")
+    return redirect("/products")
 
 @app.route("/moveproduct", methods=["POST"])
 def moveproduct():
