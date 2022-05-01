@@ -62,7 +62,7 @@
       <p>
       <div class="form-group col-6">
         <label for="date">Siirron päivämäärä</label>
-        <input type="date" class="form-control" id="date" name="date" required>
+        <input type="date" class="form-control" id="date" name="date" value="{{ request.form.get('date', '') }}" required>
       </div>
       <div class="form-group col-6">
         <button type="submit" class="btn btn-outline-dark">Tallenna</button>

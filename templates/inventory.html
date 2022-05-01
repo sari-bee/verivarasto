@@ -57,7 +57,7 @@
             <hr>
             <form action="/getproductbydonationnumber" method="POST">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="donation_number" name="donation_number" minlength="3" maxlength="20" required>
+                    <input type="text" class="form-control" id="donation_number" name="donation_number" value="{{ request.form.get('donation_number', '') }}" minlength="3" maxlength="20" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Hae luovutusnumerolla</button>

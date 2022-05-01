@@ -9,7 +9,8 @@ def add_user(username, password, role):
     try:
         salt = str(os.urandom(16))
         hashed_password = generate_password_hash(password + salt)
-        sql = "INSERT INTO Users (username, password, salt, role) VALUES (:username, :password, :salt, :role)"
+        sql = """INSERT INTO Users (username, password, salt, role)
+            VALUES (:username, :password, :salt, :role)"""
         db.session.execute(
             sql, {"username":username, "password":hashed_password, "salt":salt, "role":role})
         db.session.commit()

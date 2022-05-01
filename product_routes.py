@@ -125,6 +125,10 @@ def addproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    inventories = maintenance_functions.get_inventories()
+    product_codes = maintenance_functions.get_product_codes()
+    products = product.get_useable_product_listing()
+    sent_products = product.get_sent_products()
     donation_number = request.form["donation_number"].strip()
     prod_code_id = request.form["product_code_id"].strip()
     bloodgroup = request.form["bloodgroup"].strip()
@@ -145,8 +149,9 @@ def addproduct():
         user.add_to_log(
             f"Lisättiin valmiste {donation_number} varastoon {inventory_abbrev}")
         flash(f"Valmiste {donation_number} lisätty onnistuneesti!")
-    return redirect("/products")
-
+        return redirect("/products")
+    return render_template("products.html", product_codes=product_codes,
+                           inventories=inventories, products=products, sent_products=sent_products)
 
 @app.route("/destroyproduct", methods=["POST"])
 def destroyproduct():
@@ -155,8 +160,12 @@ def destroyproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    inventories = maintenance_functions.get_inventories()
+    product_codes = maintenance_functions.get_product_codes()
+    products = product.get_useable_product_listing()
+    sent_products = product.get_sent_products()
     product_id = request.form["product_id"].strip()
-    reason = request.form["reason"]
+    reason = request.form["reason"].strip()
     if len(reason) < 3 or len(reason) > 100:
         flash("Syötit väärän pituisen syötteen")
     else:
@@ -166,7 +175,9 @@ def destroyproduct():
         user.add_to_log(
             f"Hävitettiin valmiste {donation_number}, syy: {reason}")
         flash(f"Valmiste {donation_number} hävitetty")
-    return redirect("/products")
+        return redirect("/products")
+    return render_template("products.html", product_codes=product_codes,
+                           inventories=inventories, products=products, sent_products=sent_products)
 
 @app.route("/returnproduct", methods=["POST"])
 def returnproduct():
@@ -175,17 +186,23 @@ def returnproduct():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    inventories = maintenance_functions.get_inventories()
+    product_codes = maintenance_functions.get_product_codes()
+    products = product.get_useable_product_listing()
+    sent_products = product.get_sent_products()
     return_product_id = request.form["return_product_id"].strip()
     transfusion_id = transfusion.get_transfusion_by_product(return_product_id)[0]
     if not transfusion.remove_transfusion(transfusion_id):
         flash("Valmistetta ei voida palauttaa.")
     else:
-        status.set_new_status("Käytettävissä", return_product_id)         
+        status.set_new_status("Käytettävissä", return_product_id)
         donation_number = product.get_donation_number(return_product_id).donation_number
         user.add_to_log(
             f"Palautettiin valmiste {donation_number} varastoon")
         flash(f"Valmiste {donation_number} palautettu varastoon")
-    return redirect("/products")
+        return redirect("/products")
+    return render_template("products.html", product_codes=product_codes,
+                           inventories=inventories, products=products, sent_products=sent_products)
 
 @app.route("/moveproduct", methods=["POST"])
 def moveproduct():

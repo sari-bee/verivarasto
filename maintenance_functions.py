@@ -2,7 +2,7 @@ from db import db
 
 
 def get_departments():
-    sql = "SELECT id, department_abbrev, department_name FROM Departments"
+    sql = """SELECT id, department_abbrev, department_name FROM Departments"""
     return db.session.execute(sql).fetchall()
 
 

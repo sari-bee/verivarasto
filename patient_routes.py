@@ -64,6 +64,10 @@ def addpatient():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    patients = patient.get_patients()
+    patient_transfusions = []
+    patient_by_id = []
+    search_message = ""
     ssn = request.form["ssn"].strip()
     patient_name = request.form["patient_name"].strip()
     bloodgroup = request.form["bloodgroup"].strip()
@@ -79,7 +83,10 @@ def addpatient():
     else:
         user.add_to_log(f"Lisättiin potilas {ssn}")
         flash(f"Potilas {ssn} lisätty")
-    return redirect("/patients")
+        return redirect("/patients")
+    return render_template("patients.html", patients=patients,
+                           patient_transfusions=patient_transfusions, patient_by_id=patient_by_id,
+                           search_message=search_message)
 
 @app.route("/newphenotypereq", methods=["POST"])
 def newphenotypereq():
@@ -88,6 +95,10 @@ def newphenotypereq():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    patients = patient.get_patients()
+    patient_transfusions = []
+    patient_by_id = []
+    search_message = ""
     new_phenotype_req = request.form["new_phenotype_req"].strip()
     patient_id = request.form["patient_id"]
     ssn = request.form["ssn"]
@@ -98,7 +109,10 @@ def newphenotypereq():
     else:
         user.add_to_log(f"Lisättiin fenotyyppivaatimus {new_phenotype_req} potilaalle {ssn}")
         flash(f"Fenotyyppivaatimus lisätty potilaalle {ssn}")
-    return redirect("/patients")
+        return redirect("/patients")
+    return render_template("patients.html", patients=patients,
+                           patient_transfusions=patient_transfusions, patient_by_id=patient_by_id,
+                           search_message=search_message)
 
 @app.route("/addtransfusion", methods=["POST"])
 def addtransfusion():
@@ -107,6 +121,12 @@ def addtransfusion():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    products = product.get_useable_product_listing()
+    patients = patient.get_patients()
+    departments = maintenance_functions.get_departments()
+    department = []
+    department_transfusions = []
+    search_message = ""
     product_id = request.form["product_id"].strip()
     patient_id = request.form["patient_id"].strip()
     department_id = request.form["department_id"].strip()
@@ -121,4 +141,8 @@ def addtransfusion():
         user.add_to_log(
             f"Kirjattiin valmisteen {donation_number} lähetys potilaalle {ssn}")
         flash(f"Valmiste {donation_number} lähetetty potilaalle {ssn}")
-    return redirect("/transfusions")
+        return redirect("/transfusions")
+    return render_template("transfusions.html", products=products, patients=patients,
+                           departments=departments, department=department,
+                           department_transfusions=department_transfusions,
+                           search_message=search_message)

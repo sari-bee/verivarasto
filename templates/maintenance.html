@@ -12,11 +12,11 @@
             <form action="/addinventory" method="POST">
                 <div class="form-group">
                     <label for="inventory_abbrev">Varaston lyhenne</label>
-                    <input type="text" class="form-control" id="inventory_abbrev" name="inventory_abbrev" minlength="3" maxlength="10" required>
+                    <input type="text" class="form-control" id="inventory_abbrev" name="inventory_abbrev" value="{{ request.form.get('inventory_abbrev', '') }}" minlength="3" maxlength="10" required>
                 </div>
                 <div class="form-group">
                     <label for="inventory_name">Varaston nimi</label>
-                    <input type="text" class="form-control" id="inventory_name" name="inventory_name" minlength="3" maxlength="50" required>
+                    <input type="text" class="form-control" id="inventory_name" name="inventory_name" value="{{ request.form.get('inventory_name', '') }}" minlength="3" maxlength="50" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>
@@ -35,16 +35,16 @@
             <form action="/adddepartment" method="POST">
                 <div class="form-group">
                     <label for="department_abbrev">Hoitoyksikön lyhenne</label>
-                    <input type="text" class="form-control" id="department_abbrev" name="department_abbrev" minlength="3" maxlength="10" required>
+                    <input type="text" class="form-control" id="department_abbrev" name="department_abbrev" value="{{ request.form.get('department_abbrev', '') }}" minlength="3" maxlength="10" required>
                 </div>
                 <div class="form-group">
                     <label for="department_name">Hoitoyksikön nimi</label>
-                    <input type="text" class="form-control" id="department_name" name="department_name" minlength="3" maxlength="50" required>
+                    <input type="text" class="form-control" id="department_name" name="department_name" value="{{ request.form.get('department_name', '') }}" minlength="3" maxlength="50" required>
                 </div>
                 <div class="form-group">
-                    <label for="inventory_abbrev">Palveleva verivarasto</label>
+                    <label for="inventory_id">Palveleva verivarasto</label>
                     <select required class="form-select" name="inventory_id">
-                        <option selected=""></option>
+                        <option selected="{{ request.form.get('inventory_id', '') }}">{{ request.form.get('inventory_id', '') }}</option>
                         {% for inventory in inventories %}
                         <option value={{ inventory.id }}>{{ ''.join(inventory.inventory_abbrev) }} {{ ''.join(inventory.inventory_name) }}</option>
                         {% endfor %}
@@ -69,11 +69,11 @@
             <form action="/addproductcode" method="POST">
                 <div class="form-group">
                     <label for="prod_code_abbrev">Valmisteen lyhenne</label>
-                    <input type="text" class="form-control" id="prod_code_abbrev" name="prod_code_abbrev" minlength="3" maxlength="10" required>
+                    <input type="text" class="form-control" id="prod_code_abbrev" name="prod_code_abbrev" value="{{ request.form.get('prod_code_abbrev', '') }}" minlength="3" maxlength="10" required>
                 </div>
                 <div class="form-group">
                     <label for="prod_code_name">Valmisteen nimi</label>
-                    <input type="text" class="form-control" id="prod_code_name" name="prod_code_name" minlength="3" maxlength="50" required>
+                    <input type="text" class="form-control" id="prod_code_name" name="prod_code_name" value="{{ request.form.get('prod_code_name', '') }}" minlength="3" maxlength="50" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-outline-dark">Tallenna</button>

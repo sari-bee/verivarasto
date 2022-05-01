@@ -14,9 +14,9 @@ def login():
     password = request.form["password"].strip()
     if not user.check_user_credentials(username, password):
         flash("Käyttäjätunnus tai salasana on väärin")
-        return redirect("/")
-    return redirect("/inventory")
-
+        return render_template("index.html")
+    else:
+        return redirect("/inventory")
 
 @app.route("/logout")
 def logout():

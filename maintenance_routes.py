@@ -22,6 +22,9 @@ def addinventory():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    product_codes = maintenance_functions.get_product_codes()
+    inventories = maintenance_functions.get_inventories()
+    departments = maintenance_functions.get_departments_and_inventory()
     inventory_abbrev = request.form["inventory_abbrev"].strip()
     inventory_name = request.form["inventory_name"].strip()
     if len(inventory_abbrev) < 3 or len(inventory_abbrev) > 10:
@@ -32,7 +35,9 @@ def addinventory():
         flash("Varasto on jo olemassa")
     else:
         user.add_to_log(f"Lisättiin varasto {inventory_abbrev}")
-    return redirect("/maintenance")
+        return redirect("/maintenance")
+    return render_template("maintenance.html", product_codes=product_codes,
+                           inventories=inventories, departments=departments)
 
 
 @app.route("/adddepartment", methods=["POST"])
@@ -42,6 +47,9 @@ def adddepartment():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    product_codes = maintenance_functions.get_product_codes()
+    inventories = maintenance_functions.get_inventories()
+    departments = maintenance_functions.get_departments_and_inventory()
     department_abbrev = request.form["department_abbrev"].strip()
     department_name = request.form["department_name"].strip()
     inventory_id = request.form["inventory_id"].strip()
@@ -54,7 +62,9 @@ def adddepartment():
         flash("Hoitoyksikkö on jo olemassa")
     else:
         user.add_to_log(f"Lisättiin hoitoyksikkö {department_abbrev}")
-    return redirect("/maintenance")
+        return redirect("/maintenance")
+    return render_template("maintenance.html", product_codes=product_codes,
+                           inventories=inventories, departments=departments)
 
 
 @app.route("/addproductcode", methods=["POST"])
@@ -64,6 +74,9 @@ def addproductcode():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    product_codes = maintenance_functions.get_product_codes()
+    inventories = maintenance_functions.get_inventories()
+    departments = maintenance_functions.get_departments_and_inventory()
     prod_code_abbrev = request.form["prod_code_abbrev"].strip()
     prod_code_name = request.form["prod_code_name"].strip()
     if len(prod_code_abbrev) < 3 or len(prod_code_abbrev) > 10:
@@ -74,4 +87,6 @@ def addproductcode():
         flash("Valmistetyyppi on jo olemassa")
     else:
         user.add_to_log(f"Lisättiin valmistetyyppi {prod_code_abbrev}")
-    return redirect("/maintenance")
+        return redirect("/maintenance")
+    return render_template("maintenance.html", product_codes=product_codes,
+                           inventories=inventories, departments=departments)

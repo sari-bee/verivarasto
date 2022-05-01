@@ -15,7 +15,7 @@
       </div>
       <div class="form-group">
           <label for="donation_number">Luovutusnumero</label>
-          <input type="text" class="form-control" id="donation_number" name="donation_number" minlength="3" maxlength="20" required>
+          <input type="text" class="form-control" id="donation_number" name="donation_number" value="{{ request.form.get('donation_number', '') }}" minlength="3" maxlength="20" required>
       </div>
       <div class="form-group">
         <label for="product_code_id">Valmistetyyppi</label>
@@ -46,11 +46,11 @@
       </div>
       <div class="form-group">
           <label for="phenotypes">Fenotyypit</label>
-          <input type="text" class="form-control" id="phenotypes" name="phenotypes" maxlength="200">
+          <input type="text" class="form-control" id="phenotypes" name="phenotypes" value="{{ request.form.get('phenotypes', '') }}" maxlength="200">
       </div>
       <div class="form-group">
         <label for="use_before">Käytettävä ennen</label>
-        <input type="date" class="form-control" id="use_before" name="use_before" required>
+        <input type="date" class="form-control" id="use_before" name="use_before" value="{{ request.form.get('use_before', '') }}" required>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-outline-dark">Tallenna</button>
@@ -74,7 +74,7 @@
           </div>
           <div class="form-group">
             <label for="reason">Hävittämisen syy</label>
-            <input type="text" class="form-control" id="reason" name="reason" minlength="3" maxlength="100" required>
+            <input type="text" class="form-control" id="reason" name="reason" value="{{ request.form.get('reason', '') }}" minlength="3" maxlength="100" required>
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-outline-dark">Tallenna</button>
