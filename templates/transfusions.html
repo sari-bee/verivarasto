@@ -1,36 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
   <div class="row">
-    <div class="col-5" id="margin">
-      <h5>Hae hoitoyksikön verensiirrot</h5>
-      <p>
-      <form action="/transfusions" method="POST">
-        <div class="form-group">
-          <label for="department_id">Hoitoyksikkö</label>
-          <select required class="form-select" name="department_id">
-            <option selected=""></option>
-            {% for department in departments %}
-            <option value={{ department.id }}>{{ ''.join(department.department_abbrev) }} {{ ''.join(department.department_name) }}</option>
-            {% endfor %}
-          </select>
+    <div class="col-5">
+      <div class="row" id="margin">
+        <h5>Hae verensiirron tiedot</h5>
+        <form action="/transfusionbyproduct" method="POST">
+          <div class="form-group">
+            <label for="sent_product_id">Luovutusnumero</label>
+            <select required class="form-select" name="sent_product_id">
+              <option selected=""></option>
+              {% for sent_product in sent_products %}
+              <option value={{ sent_product.id }}>{{ ''.join(sent_product.donation_number) }} {{ ''.join(sent_product.prod_code_abbrev) }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark">Hae</button>
+          </div>
+        </form>
+        <div>
+        {% if sent_product %}
+          <h5>{{ sent_product.donation_number }} {{ sent_product.prod_code_abbrev }} ({{ sent_product.prod_code_name }})</h5>
+          Potilas: {{ sent_product.patient_name }} ({{ sent_product.ssn }}) // {{ sent_product.date }} {{ sent_product.department_abbrev }}
+        {% endif %}
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-outline-dark">Hae tiedot</button>
+      </div>
+      <div class="row" id="margin">
+        <h5>Hae hoitoyksikön verensiirrot</h5>
+        <form action="/transfusions" method="POST">
+          <div class="form-group">
+            <label for="department_id">Hoitoyksikkö</label>
+            <select required class="form-select" name="department_id">
+              <option selected=""></option>
+              {% for department in departments %}
+              <option value={{ department.id }}>{{ ''.join(department.department_abbrev) }} {{ ''.join(department.department_name) }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark">Hae</button>
+          </div>
+        </form>
+        <div>
+        {% if department %}
+          <h5>{{ department.department_abbrev }} {{ department.department_name }}</h5>
+          <ul>
+          {% for transfusion in department_transfusions %}
+          <li><b>{{ transfusion.date }}</b> {{ transfusion.donation_number }} {{ transfusion.prod_code_abbrev }} 
+            ({{ transfusion.prod_code_name}}), potilas {{ transfusion.patient_name }} ({{ transfusion.ssn }})
+          {% endfor %}
+          </ul>
+        {% endif %}
+        {{ search_message }}
         </div>
-      </form>
-      {% if department %}
-        <h5>{{ department.department_abbrev }} {{ department.department_name }}</h5>
-        <ul>
-        {% for transfusion in department_transfusions %}
-        <li><b>{{ transfusion.date }}</b> {{ transfusion.donation_number }} {{ transfusion.prod_code_abbrev }} 
-          ({{ transfusion.prod_code_name}}), potilas {{ transfusion.patient_name }} ({{ transfusion.ssn }})
-        {% endfor %}
-        </ul>
-      {% endif %}
-      {{ search_message }}
+      </div>
     </div>
     <div class="col-5" id="margin">
       <h5>Verensiirron kirjaus</h5>
+      <div>
       <form action="/addtransfusion" method="POST">
       <div class="form-group col-6">
         <label for="product_id">Valmiste</label>

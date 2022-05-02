@@ -11,7 +11,7 @@ def get_all_products():
 
 
 def get_products_by_status(status):
-    sql = """SELECT donation_number, prod_code_abbrev, bloodgroup, phenotypes, use_before,
+    sql = """SELECT Products.id, donation_number, prod_code_abbrev, bloodgroup, phenotypes, use_before,
         inventory_abbrev, status FROM Products, Product_codes, Inventory_products, Inventories
         WHERE Products.product_code_id = Product_codes.id
         AND Products.id = Inventory_products.product_id

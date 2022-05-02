@@ -6,6 +6,7 @@ import status
 import patient
 import maintenance_functions
 import user
+import search
 
 
 @app.route("/patients", methods=["GET", "POST"])
@@ -38,6 +39,8 @@ def transfusions():
     products = product.get_useable_product_listing()
     patients = patient.get_patients()
     departments = maintenance_functions.get_departments()
+    sent_products = search.get_products_by_status("Siirretty")
+    sent_product = []
     if request.method == "GET":
         department = []
         department_transfusions = []
@@ -54,7 +57,27 @@ def transfusions():
     return render_template("transfusions.html", products=products, patients=patients,
                            departments=departments, department=department,
                            department_transfusions=department_transfusions,
-                           search_message=search_message)
+                           search_message=search_message, sent_product=sent_product,
+                           sent_products=sent_products)
+
+@app.route("/transfusionbyproduct", methods = ["POST"])
+def transfusionbyproduct():
+    if not user.check_user_role(1):
+        return redirect("/")
+    products = product.get_useable_product_listing()
+    patients = patient.get_patients()
+    departments = maintenance_functions.get_departments()
+    department = []
+    department_transfusions = []
+    search_message = ""
+    sent_products = search.get_products_by_status("Siirretty")
+    sent_product_id = request.form["sent_product_id"].strip()
+    sent_product = transfusion.get_transfusion_details(sent_product_id)
+    return render_template("transfusions.html", products=products, patients=patients,
+                           departments=departments, department=department,
+                           department_transfusions=department_transfusions,
+                           search_message=search_message, sent_product=sent_product,
+                           sent_products=sent_products)
 
 
 @app.route("/addpatient", methods=["POST"])
@@ -112,7 +135,7 @@ def newphenotypereq():
         flash("Fenotyyppivaatimusten lisääminen epäonnistui, tarkista tiedot ja yritä uudelleen")
     else:
         user.add_to_log(f"Lisättiin fenotyyppivaatimus {new_phenotype_req} potilaalle {ssn}")
-        patient_by_id = patient.get_patient_by_id(patient_id)     
+        patient_by_id = patient.get_patient_by_id(patient_id)
     return render_template("patients.html", patients=patients,
                            patient_transfusions=patient_transfusions, patient_by_id=patient_by_id,
                            search_message=search_message)

@@ -15,8 +15,7 @@ def login():
     if not user.check_user_credentials(username, password):
         flash("Käyttäjätunnus tai salasana on väärin")
         return render_template("index.html")
-    else:
-        return redirect("/inventory")
+    return redirect("/inventory")
 
 @app.route("/logout")
 def logout():
