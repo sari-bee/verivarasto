@@ -15,10 +15,9 @@ def inventory():
     inventories = maintenance_functions.get_inventories()
     products = search.get_products_by_status("Käytettävissä")
     listing_type = "Käytettävissä olevat valmisteet"
+    search_message = ""
     if products == []:
         search_message = "Ei hakuehtojen mukaisia valmisteita"
-    else:
-        search_message = ""
     return render_template("inventory.html", products=products, listing_type=listing_type,
                            inventories=inventories, search_message=search_message)
 
@@ -29,6 +28,7 @@ def getproductsbyinventory():
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
     inventory_id = request.form["inventory_id"].strip()
+    search_message = ""
     if inventory_id == "all":
         products = search.get_all_products()
         listing_type = "Kaikki valmisteet"
@@ -39,8 +39,6 @@ def getproductsbyinventory():
         listing_type = "Valmisteet varastossa " + inventory_abbrev
     if products == []:
         search_message = "Ei hakuehtojen mukaisia valmisteita"
-    else:
-        search_message = ""
     return render_template("inventory.html", products=products, listing_type=listing_type,
                            inventories=inventories, search_message=search_message)
 
@@ -51,6 +49,7 @@ def getuseableprodbyinventory():
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
     inventory_id = request.form["inventory_id"].strip()
+    search_message = ""
     if inventory_id == "all":
         products = search.get_products_by_status("Käytettävissä")
         listing_type = "Käytettävissä olevat valmisteet"
@@ -62,8 +61,6 @@ def getuseableprodbyinventory():
         listing_type = "Käytettävissä olevat valmisteet varastossa " + inventory_abbrev
     if products == []:
         search_message = "Ei hakuehtojen mukaisia valmisteita"
-    else:
-        search_message = ""
     return render_template("inventory.html", products=products, listing_type=listing_type,
                            inventories=inventories, search_message=search_message)
 
@@ -74,13 +71,12 @@ def getprodbybloodgroup():
         return redirect("/")
     inventories = maintenance_functions.get_inventories()
     bloodgroup = request.form["bloodgroup"].strip()
+    search_message = ""
     products = search.get_prod_by_status_and_bloodgroup(
         "Käytettävissä", bloodgroup)
     listing_type = "Käytettävissä olevat veriryhmän " + bloodgroup + " valmisteet"
     if products == []:
         search_message = "Ei hakuehtojen mukaisia valmisteita"
-    else:
-        search_message = ""
     return render_template("inventory.html", products=products, listing_type=listing_type,
                            inventories=inventories, search_message=search_message)
 
@@ -92,16 +88,14 @@ def getproductbydonationnumber():
     inventories = maintenance_functions.get_inventories()
     donation_number = request.form["donation_number"].strip()
     listing_type = "Valmisteet haulla " + donation_number
+    search_message = ""
     if len(donation_number) < 3 or len(donation_number) > 20:
         flash("Syötit väärän pituisen hakusanan")
         products = []
-        search_message = ""
     else:
         products = search.get_product_by_donation_number(donation_number)
         if products == []:
             search_message = "Ei hakuehtojen mukaisia valmisteita"
-        else:
-            search_message = ""
     return render_template("inventory.html", products=products, listing_type=listing_type,
                            inventories=inventories, search_message=search_message)
 
@@ -139,8 +133,10 @@ def addproduct():
     inventory_id = request.form["inventory_id"].strip()
     inventory_abbrev = maintenance_functions.get_inventory_abbrev_name(inventory_id)[0]
     inventory_name = maintenance_functions.get_inventory_abbrev_name(inventory_id)[1]
-    if len(donation_number) < 3 or len(donation_number) > 20 or len(phenotypes) > 200:
-        flash("Syötit väärän pituisen syötteen")
+    if len(donation_number) < 3 or len(donation_number) > 20:
+        flash("Syötit väärän pituisen luovutusnumeron")
+    elif len(phenotypes) > 200:
+        flash("Fenotyyppikentässä on liikaa tekstiä")
     elif not product.add_product(donation_number, prod_code_id, bloodgroup, phenotypes, use_before):
         flash("Valmisteen lisääminen ei onnistunut. Onko valmiste jo varastossa?")
     else:
@@ -173,7 +169,7 @@ def destroyproduct():
     product_id = request.form["product_id"].strip()
     reason = request.form["reason"].strip()
     if len(reason) > 200:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syykentässä on liikaa tekstiä")
     else:
         status.set_new_status("Hävitetty", product_id)
         donation_number = product.get_donation_number(
@@ -199,7 +195,7 @@ def returnproduct():
     return_product_id = request.form["return_product_id"].strip()
     transfusion_id = transfusion.get_transfusion_by_product(return_product_id)[0]
     if not transfusion.remove_transfusion(transfusion_id):
-        flash("Valmistetta ei voida palauttaa.")
+        flash("Valmisteen palautus ei onnistunut")
     else:
         status.set_new_status("Käytettävissä", return_product_id)
         donation_number = product.get_donation_number(return_product_id).donation_number

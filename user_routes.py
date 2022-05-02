@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from flask import render_template, request, redirect, flash
 from app import app
 import user
@@ -67,9 +68,21 @@ def change_password():
     return redirect("/maintenance")
 
 
-@app.route("/logs")
+@app.route("/logs", methods=["GET", "POST"])
 def logs():
     if not user.check_user_role(1):
         return redirect("/")
-    logs = user.get_logs()
-    return render_template("logs.html", logs=logs)
+    if request.method == "GET":
+        startdate = date.today() - timedelta(30)
+        enddate = date.today()
+    if request.method == "POST":
+        startdate = request.form["startdate"].strip()
+        enddate = request.form["enddate"].strip()
+        if startdate > enddate:
+            flash("Lähtien tulee olla aiemmin kuin Asti!")
+    logs = user.get_logs(startdate, enddate)
+    log_message = ""
+    if logs == []:
+        log_message = "Ei tapahtumia"
+    return render_template("logs.html", logs=logs, startdate=startdate,
+                                    enddate=enddate, log_message=log_message)

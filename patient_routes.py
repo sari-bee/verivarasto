@@ -14,10 +14,10 @@ def patients():
     if not user.check_user_role(1):
         return redirect("/")
     patients = patient.get_patients()
+    search_message = ""
     if request.method == "GET":
         patient_transfusions = []
         patient_by_id = []
-        search_message = ""
     if request.method == "POST":
         patient_id = request.form["patient_id"].strip()
         patient_by_id = patient.get_patient_by_id(patient_id)
@@ -25,8 +25,6 @@ def patients():
             patient_id)
         if patient_transfusions == []:
             search_message = "Ei verensiirtoja"
-        else:
-            search_message = ""
     return render_template("patients.html", patients=patients,
                            patient_transfusions=patient_transfusions, patient_by_id=patient_by_id,
                            search_message=search_message)
@@ -41,10 +39,10 @@ def transfusions():
     departments = maintenance_functions.get_departments()
     sent_products = search.get_products_by_status("Siirretty")
     sent_product = []
+    search_message = ""
     if request.method == "GET":
         department = []
         department_transfusions = []
-        search_message = ""
     if request.method == "POST":
         department_id = request.form["department_id"].strip()
         department = maintenance_functions.get_department(department_id)
@@ -52,8 +50,6 @@ def transfusions():
             department_id)
         if department_transfusions == []:
             search_message = "Ei verensiirtoja"
-        else:
-            search_message = ""
     return render_template("transfusions.html", products=products, patients=patients,
                            departments=departments, department=department,
                            department_transfusions=department_transfusions,
@@ -96,11 +92,11 @@ def addpatient():
     bloodgroup = request.form["bloodgroup"].strip()
     phenotype_reqs = request.form["phenotype_reqs"].strip()
     if len(ssn) < 3 or len(ssn) > 20:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen henkilötunnuksen")
     elif len(patient_name) < 3 or len(patient_name) > 50:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen nimen")
     elif len(phenotype_reqs) > 200:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Fenotyyppikentässä on liikaa tekstiä")
     elif not patient.add_patient(ssn, patient_name, bloodgroup, phenotype_reqs):
         flash("Potilaan lisääminen epäonnistui. Onko potilas jo lisätty?")
     else:
@@ -118,6 +114,7 @@ def newphenotypereq():
     csrf_token = request.form["csrf_token"]
     if not user.check_csrf_token(csrf_token):
         return redirect("/")
+    search_message = ""
     patients = patient.get_patients()
     new_phenotype_req = request.form["new_phenotype_req"].strip()
     patient_id = request.form["patient_id"]
@@ -126,11 +123,9 @@ def newphenotypereq():
         patient_id)
     if patient_transfusions == []:
         search_message = "Ei verensiirtoja"
-    else:
-        search_message = ""
     ssn = request.form["patient_ssn"]
     if len(new_phenotype_req) == 0 or len(new_phenotype_req) > 200:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Tarkista fenotyyppikenttä")
     elif not patient.add_phenotype_reqs(patient_id, new_phenotype_req):
         flash("Fenotyyppivaatimusten lisääminen epäonnistui, tarkista tiedot ja yritä uudelleen")
     else:

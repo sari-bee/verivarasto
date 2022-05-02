@@ -71,7 +71,7 @@ Verivarasto-sivulla voit hakea valmisteita eri hakuehdoilla. Valtaosassa hauista
 
 ### Verensiirrot
 
-Verensiirrot-sivulla voit kirjata verensiirron tai hakea hoitoyksikön verensiirtoja. Jälleen valtaosin tiedot valitaan pudotusvalikosta. Verensiirron voi kirjata vain, jos varastossa on Käytettävissä-tilassa olevia verivalmisteita. Siirron päivämäärää ei ole rajattu.
+Verensiirrot-sivulla voit kirjata verensiirron, hakea yksittäisen verensiirron tiedot tai hakea hoitoyksikön verensiirrot. Jälleen valtaosin tiedot valitaan pudotusvalikosta. Verensiirron voi kirjata vain, jos varastossa on Käytettävissä-tilassa olevia verivalmisteita. Siirron päivämäärää ei ole rajattu.
 
 ### Potilaat
 
@@ -87,14 +87,9 @@ Ylläpito-sivulla voi lisätä verivarastoja, hoitoyksiköitä ja valmistetyyppe
 
 ### Loki
 
-Loki-sivulle kertyy tietoa sovelluksessa tehdyistä toimenpiteistä.
+Loki-sivulle kertyy tietoa sovelluksessa tehdyistä toimenpiteistä. Tietoja voi rajata päivämäärien perusteella.
 
 ## Ongelmat ja jatkokehitysideat
-
-Mahdollisia jatkokehitysideoita:
-- Luovutusnumerolla hakiessa pitäisi löytää potilas, jolle verivalmiste on siirretty.
-- Lokitietoihin mahdollisuus rajata tietoja.
-- Myös dropdown-valintojen säilyminen lomakkeessa, jos tietokantatransaktio ei onnistu.
 
 Todellisuudessa käyttäjät eivät voisi tämän tyyppisessä sovelluksessa rekisteröityä itse, vaan esim. pääkäyttäjä lisäisi (ja poistaisi) käyttäjätunnukset. Tähän sovellukseen olen lähinnä käytännön syistä toteuttanut itserekisteröitymisen enkä myöskään toteuttanut tässä vaiheessa erillistä pääkäyttäjäroolia.
 

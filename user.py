@@ -73,11 +73,11 @@ def check_user_role(role):
         return False
     return True
 
-
-def get_logs():
+def get_logs(startdate, enddate):
     sql = """SELECT logtext, username, date FROM Logs, Users
-        WHERE Users.id = Logs.user_id ORDER BY Logs.id DESC"""
-    return db.session.execute(sql).fetchall()
+        WHERE Users.id = Logs.user_id AND :startdate <= date
+        AND :enddate >= date ORDER BY Logs.id DESC"""
+    return db.session.execute(sql, {"startdate":startdate, "enddate":enddate}).fetchall()
 
 
 def add_to_log(logtext):

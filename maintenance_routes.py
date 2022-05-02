@@ -28,9 +28,9 @@ def addinventory():
     inventory_abbrev = request.form["inventory_abbrev"].strip()
     inventory_name = request.form["inventory_name"].strip()
     if len(inventory_abbrev) < 3 or len(inventory_abbrev) > 10:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen varaston lyhenteen")
     elif len(inventory_name) < 3 or len(inventory_name) > 50:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen varaston nimen")
     elif not maintenance_functions.add_inventory(inventory_abbrev, inventory_name):
         flash("Varasto on jo olemassa")
     else:
@@ -56,9 +56,9 @@ def adddepartment():
     inventory_abbrev = maintenance_functions.get_inventory_abbrev_name(inventory_id)[0]
     inventory_name = maintenance_functions.get_inventory_abbrev_name(inventory_id)[1]
     if len(department_abbrev) < 3 or len(department_abbrev) > 10:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen hoitoyksikön lyhenteen")
     elif len(department_name) < 3 or len(department_name) > 50:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen hoitoyksikön nimen")
     elif not maintenance_functions.add_department(department_abbrev,
                                                   department_name, inventory_id):
         flash("Hoitoyksikkö on jo olemassa")
@@ -83,9 +83,9 @@ def addproductcode():
     prod_code_abbrev = request.form["prod_code_abbrev"].strip()
     prod_code_name = request.form["prod_code_name"].strip()
     if len(prod_code_abbrev) < 3 or len(prod_code_abbrev) > 10:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen valmisteen lyhenteen")
     elif len(prod_code_name) < 3 or len(prod_code_name) > 50:
-        flash("Syötit väärän pituisen syötteen")
+        flash("Syötit väärän pituisen valmisteen nimen")
     elif not maintenance_functions.add_product_code(prod_code_abbrev, prod_code_name):
         flash("Valmistetyyppi on jo olemassa")
     else:
