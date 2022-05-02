@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label for="bloodgroup">Veriryhmä</label>
                     <select required class="form-select" name="bloodgroup">
-                        <option selected="{{ request.form.get('bloodgroup', '') }}">{{ request.form.get('bloodgroup', '') }}</option>
+                        <option selected="{{ request.form.get('bloodgroup', '') }}" value="{{ request.form.get('bloodgroup', '') }}">{{ request.form.get('bloodgroup', '') }}</option>
                         <option value="A RhD pos">A RhD pos</option>
                         <option value="A RhD neg">A RhD neg</option>
                         <option value="B RhD pos">B RhD pos</option>

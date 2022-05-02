@@ -7,7 +7,7 @@
       <div class="form-group">
         <label for="inventory_id">Varasto, johon sisäänkirjataan</label>
         <select required class="form-select" name="inventory_id">
-          <option selected="{{ request.form.get('inventory_id', '') }}">{{ inventory_abbrev }} {{ inventory_name }}</option>
+          <option selected="{{ request.form.get('inventory_id', '') }}" value="{{ request.form.get('inventory_id', '') }}">{{ inventory_abbrev }} {{ inventory_name }}</option>
           {% for inventory in inventories %}
           <option value={{ inventory.id }}>{{ ''.join(inventory.inventory_abbrev) }} {{ ''.join(inventory.inventory_name) }}</option>
           {% endfor %}
@@ -20,7 +20,7 @@
       <div class="form-group">
         <label for="product_code_id">Valmistetyyppi</label>
         <select required class="form-select" name="product_code_id">
-          <option selected="{{ request.form.get('product_code_id', '') }}">{{ prod_code_abbrev }} {{ prod_code_name }}</option>
+          <option selected="{{ request.form.get('product_code_id', '') }}" value="{{ request.form.get('product_code_id', '') }}">{{ prod_code_abbrev }} {{ prod_code_name }}</option>
           {% for product_code in product_codes %}
           <option value={{ product_code.id }}>{{ ''.join(product_code.prod_code_abbrev) }} {{ ''.join(product_code.prod_code_name) }}</option>
           {% endfor %}
@@ -29,7 +29,7 @@
       <div class="form-group">
         <label for="bloodgroup">Veriryhmä</label>
         <select required class="form-select" name="bloodgroup">
-          <option selected="{{ request.form.get('bloodgroup', '') }}">{{ request.form.get('bloodgroup', '') }}</option>
+          <option selected="{{ request.form.get('bloodgroup', '') }}" value="{{ request.form.get('bloodgroup', '') }}">{{ request.form.get('bloodgroup', '') }}</option>
           <option value="A RhD pos">A RhD pos</option>
           <option value="A RhD neg">A RhD neg</option>
           <option value="B RhD pos">B RhD pos</option>
@@ -74,7 +74,7 @@
           </div>
           <div class="form-group">
             <label for="reason">Hävittämisen syy</label>
-            <input type="text" class="form-control" id="reason" name="reason" value="{{ request.form.get('reason', '') }}" maxlength="200" required>
+            <input type="text" class="form-control" id="reason" name="reason" maxlength="200" required>
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-outline-dark">Tallenna</button>
