@@ -32,11 +32,14 @@ def register():
         username = request.form["username"].strip()
         password = request.form["password"].strip()
         password2 = request.form["password2"].strip()
-        if len(username) < 3 or len(username) > 20 or len(password) < 6 or len(password) > 20:
+        if len(username) < 6 or len(username) > 30 or len(password) < 8 or len(password) > 50:
             flash("Syötit väärän pituisen käyttäjätunnuksen tai salasanan")
             return render_template("register.html")
         if password != password2:
             flash("Salasanat eivät täsmää")
+            return render_template("register.html")
+        if not user.check_regex(password):
+            flash("Salasanasi ei vastaa vaatimuksia")
             return render_template("register.html")
         role = 1
         if not user.add_user(username, password, role):
@@ -57,16 +60,17 @@ def change_password():
     oldpassword = request.form["oldpassword"].strip()
     newpassword = request.form["newpassword"].strip()
     newpassword2 = request.form["newpassword2"].strip()
-    if len(newpassword) < 6 or len(newpassword) > 20:
+    if len(newpassword) < 8 or len(newpassword) > 50:
         flash("Syötit väärän pituisen käyttäjätunnuksen tai salasanan")
     elif newpassword != newpassword2:
         flash("Uudet salasanat eivät täsmää")
+    elif not user.check_regex(newpassword):
+        flash("Uusi salasanasi ei vastaa vaatimuksia")
     elif not user.change_password(oldpassword, newpassword):
         flash("Salasanan vaihto ei onnistunut. Syötitkö vanhan salasanan oikein?")
     else:
         flash("Salasana vaihdettu onnistuneesti")
     return redirect("/maintenance")
-
 
 @app.route("/logs", methods=["GET", "POST"])
 def logs():

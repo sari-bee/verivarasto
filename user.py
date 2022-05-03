@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import date
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask import session
@@ -54,6 +55,18 @@ def change_password(oldpassword, newpassword):
             return False
     else:
         return False
+
+def check_regex(password):
+    small_letters = "[a-zåäö]"
+    capital_letters = "[A-ZÅÄÖ]"
+    numbers = "[0-9]"
+    if not re.search(small_letters, password):
+        return False
+    if not re.search(capital_letters, password):
+        return False
+    if not re.search(numbers, password):
+        return False
+    return True
 
 
 def delete_session():
