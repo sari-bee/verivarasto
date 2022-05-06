@@ -13,7 +13,7 @@ Heroku: https://verivarasto.herokuapp.com/
 Sovellus aukeaa kirjautumissivulle, josta pääset rekisteröitymään Rekisteröidy-linkin kautta. Ellet halua rekisteröityä, voit käyttää yhteiskäyttötunnuksia
 ```bash
 aku.ankka
-Ankkalinna
+Ankkalinna1
 ```
 Ethän vaihda yhteiskäyttötunnuksen salasanaa, kiitos!
 
