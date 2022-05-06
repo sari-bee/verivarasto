@@ -43,7 +43,7 @@
         </form>
         <div>
         {% if department %}
-          <h5>{{ department.department_abbrev }} {{ department.department_name }}</h5>
+          <h5>Hoitoyksikkö {{ department.department_abbrev }} {{ department.department_name }}</h5>
           <ul>
           {% for transfusion in department_transfusions %}
           <li><b>{{ transfusion.date }}</b> {{ transfusion.donation_number }} {{ transfusion.prod_code_abbrev }} 
