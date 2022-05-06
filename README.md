@@ -67,7 +67,7 @@ Käyttöliittymä ohjaa tarvittaessa syöttämään sovelluksen kenttiin oikean 
 
 ### Verivarasto
 
-Verivarasto-sivulla voit hakea valmisteita eri hakuehdoilla. Valtaosassa hauista hakuehto valitaan pudotusvalikosta. Hae luovutusnumerolla -haku on kirjainkokoriippumaton ja tunnistaa myös osittaisen hakutermin. (Hakua varten tiedoksi, että valmisteen luovutusnumero on hakutuloksissa tietueen ensimmäinen tieto.) Varaston Käytettävissä-tilaiset verivalmisteet merkitään automaattisesti Vanhentunut-tilaan Käytettävä ennen -päivän jälkeen.
+Verivarasto-sivulla voit hakea valmisteita eri hakuehdoilla. Valtaosassa hauista hakuehto valitaan pudotusvalikosta. Hae luovutusnumerolla -haku on kirjainkokoriippumaton ja tunnistaa myös osittaisen hakutermin. (Hakua varten tiedoksi, että valmisteen luovutusnumero on hakutuloksissa tietueen ensimmäinen tieto.) Varaston Käytettävissä-tilaiset verivalmisteet merkitään automaattisesti Vanhentunut-tilaan Käytettävä ennen -päivän jälkeen (Käytettävä ennen = käytettävä ennen päivän loppua, tyypillisesti verivalmisteissa ilmaistu esim. käytettävä ennen 6.5.2022 23:59).
 
 ### Verensiirrot
 
@@ -75,7 +75,7 @@ Verensiirrot-sivulla voit kirjata verensiirron, hakea yksittäisen verensiirron 
 
 ### Potilaat
 
-Potilaat-sivulla voit hakea potilaan verensiirrot, potilas valitaan pudotusvalikosta. Potilaan valittuasi voit lisätä hänelle fenotyyppivaatimuksia. Lisäksi sivulla voi lisätä uuden potilaan. Fenotyyppivaatimukset-kenttä ei ole pakollinen.
+Potilaat-sivulla voit hakea potilaan verensiirrot, potilas valitaan pudotusvalikosta. Potilaan valittuasi voit lisätä hänelle fenotyyppivaatimuksia. Lisäksi sivulla voi lisätä uuden potilaan. Fenotyyppivaatimukset-kenttä ei ole potilasta lisättäessä pakollinen.
 
 ### Valmistetoiminnot
 
@@ -93,12 +93,12 @@ Loki-sivulle kertyy tietoa sovelluksessa tehdyistä toimenpiteistä. Tietoja voi
 
 Todellisuudessa käyttäjät eivät voisi tämän tyyppisessä sovelluksessa rekisteröityä itse, vaan esim. pääkäyttäjä lisäisi (ja poistaisi) käyttäjätunnukset. Tähän sovellukseen olen lähinnä käytännön syistä toteuttanut itserekisteröitymisen enkä myöskään toteuttanut tässä vaiheessa erillistä pääkäyttäjäroolia.
 
-Sovelluksen lomakkeissa on useita kohtia, joissa valinta tehdään pudotusvalikosta. Tämä ei ole kovinkaan skaalautuva ratkaisu. Tein tämän ratkaisun tässä kontekstissa lähinnä siksi, että sovelluksen testaaminen on helpompaa kun kenttiin ei tarvitse osata vapaatekstinä antaa tietoja, joita tietokannasta jo löytyy. Todellisessa sovelluksessa tietenkin esimerkiksi potilaan haku verensiirron kirjauksessa tehtäisiin syöttämällä henkilötunnus vapaatekstinä.
+Sovelluksen lomakkeissa on useita kohtia, joissa valinta tehdään pudotusvalikosta. Tämä ei ole kovinkaan skaalautuva ratkaisu. Tein tämän ratkaisun tässä kontekstissa lähinnä siksi, että sovelluksen testaaminen on helpompaa kun kenttiin ei tarvitse osata vapaatekstinä antaa tietoja, joita tietokannasta jo löytyy. Todellisessa sovelluksessa tietenkin esimerkiksi potilaan haku verensiirron kirjauksessa tehtäisiin syöttämällä henkilötunnus vapaatekstinä (tai lukemalla viivakoodilta).
 
 Verivarastoja, hoitoyksiköitä ja valmistetyyppejä voisi olla tarve poistaa voimasta. Tällöin kuitenkaan vanhat jo syötetyt tiedot eivät saa hävitä. Koska tällaisia muutoksia tapahtuu harvoin, en toteuttanut käyttöliittymään mahdollisuutta tähän.
 
 Verivalmisteita sisäänkirjatessa voisi valmisteen veriryhmän valinta mukautua valmisteen tyypin mukaan (osassa valmisteita huomioidaan ABO- ja RhD-veriryhmät, osassa vain ABO). Tämä vaatisi kuitenkin mahdollisten veriryhmävaihtoehtojen syöttöä myös valmistetyyppejä lisätessä, joten tätä ei ole tässä vaiheessa toteutettu.
 
-Verivalmisteiden lähetyksen hoitoyksiköihin voisi rajata niin, että valmisteen voi lähettää hoitoyksikköön vain, jos se on siinä verivarastossa, joka palvelee ko. hoitoyksikköä. Tätä toiminnallisuutta en kuitenkaan tässä vaiheessa toteuttanut. Käytännössä, oikeassa käytössä sovellusta käytettäisiin niin, että verivalmisteen etiketistä luettaisiin viivakoodinlukijalla valmisteen luovutusnumero ja tällöin tietysti valmisteen pitää olla fyysisesti paikan päällä oikeassa verivarastossa. Näin ollen ohjelmallisesti tätä ei välttämättä ole tarpeen rajata. Ohjelmassa valmisteiden siirto verivarastosta toiseen palvelee varastonhallintaa: sovelluksesta saa nopeasti käsityksen, minkä verran ja minkälaisia valmisteita kussakin verivarastossa on.
+Verivalmisteiden lähetyksen hoitoyksiköihin voisi rajata niin, että valmisteen voi lähettää hoitoyksikköön vain, jos se on siinä verivarastossa, joka palvelee ko. hoitoyksikköä. Tätä toiminnallisuutta en kuitenkaan tässä vaiheessa toteuttanut. Käytännössä, oikeassa käytössä sovellusta käytettäisiin niin, että verivalmisteen etiketistä luettaisiin viivakoodinlukijalla valmisteen luovutusnumero ja tällöin tietysti valmisteen pitää olla fyysisesti paikan päällä oikeassa verivarastossa. Näin ollen ohjelmallisesti tätä ei välttämättä ole tarpeen rajata. Ohjelmassa valmisteiden kirjaus tiettyyn verivarastoon ja mahdollisuus siirtää verivarastosta toiseen palvelee varastonhallintaa: sovelluksesta saa nopeasti käsityksen, minkä verran ja minkälaisia valmisteita kussakin verivarastossa on.
 
 Verivalmisteita potilaalle lähetettäessä olisi mahdollista tarkistaa, että verivalmisteen veriryhmä sopii potilaalle. Tämä vaatii monimutkaista päättelyä erikoistapauksineen, joten tätä ei ole sovellukseen toteutettu. Käytännössä verikeskuksen työntekijöiden vastuulla on aina varmistaa, että valmisteen veriryhmä sopii potilaalle.
